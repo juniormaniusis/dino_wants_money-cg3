@@ -1,14 +1,14 @@
-#include "wall.hpp"
+#include "ground.hpp"
 
 #include <cppitertools/itertools.hpp>
 
-void Wall::initializeGL(GLuint program) {
-  // Unit quad on the xy plane
+void Ground::initializeGL(GLuint program) {
+  // Unit quad on the xz plane
   // clang-format off
-  std::array vertices{glm::vec3(-6.0f, 1.0f,  0.0f), 
-                      glm::vec3(-6.0f, -1.0f, 0.0f),
-                      glm::vec3( 6.0f, 1.0f,  0.0f),
-                      glm::vec3( 6.0f, -1.0f, 0.0f)};
+  std::array vertices{glm::vec3(-0.5, 0.0f,  0.5), 
+                      glm::vec3(-0.5, 0.0f, -0.5),
+                      glm::vec3( 0.5, 0.0f,  0.5),
+                      glm::vec3( 0.5, 0.0f, -0.5)};
   // clang-format on                      
 
   // Generate VBO
@@ -33,19 +33,29 @@ void Wall::initializeGL(GLuint program) {
   m_colorLoc = abcg::glGetUniformLocation(program, "color");
 }
 
-void Wall::paintGL() {
-  // Draw wall
+void Ground::paintGL() {
+  // Draw a grid of tiles centered on the xz plane
+  const int N{5};
+
   abcg::glBindVertexArray(m_VAO);
-  glm::mat4 model{1.0f};
-  model = glm::mat4(1.0);
-  model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
-  abcg::glUniformMatrix4fv(m_modelMatrixLoc, 1, GL_FALSE, &model[0][0]);
-  abcg::glUniform4f(m_colorLoc, 0.51f, 0.57f, 0.79f, 1.0f);
-  abcg::glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+  for (const auto z : iter::range(-N, N + 1)) {
+    for (const auto x : iter::range(-N, N + 1)) {
+      // Set model matrix
+      glm::mat4 model{1.0f};
+      model = glm::translate(model, glm::vec3(x, 0.0f, z));
+      abcg::glUniformMatrix4fv(m_modelMatrixLoc, 1, GL_FALSE, &model[0][0]);
+
+      // Set color (checkerboard pattern)
+      const float gray{(z + x) % 2 == 0 ? 1.0f : 0.5f};
+      abcg::glUniform4f(m_colorLoc, gray, gray, gray, 1.0f);
+
+      abcg::glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    }
+  }
   abcg::glBindVertexArray(0);
 }
 
-void Wall::terminateGL() {
+void Ground::terminateGL() {
   abcg::glDeleteBuffers(1, &m_VBO);
   abcg::glDeleteVertexArrays(1, &m_VAO);
 }

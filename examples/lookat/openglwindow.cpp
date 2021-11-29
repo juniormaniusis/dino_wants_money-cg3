@@ -58,26 +58,27 @@ void OpenGLWindow::initializeGL() {
   abcg::glEnable(GL_DEPTH_TEST);
 
   // Create program
-  m_program = createProgramFromFile(getAssetsPath() + "lookatPacman.vert", getAssetsPath() + "lookatPacman.frag");
+  m_program = createProgramFromFile(getAssetsPath() + "lookat.vert",
+                                    getAssetsPath() + "lookat.frag");
+
   m_ground.initializeGL(m_program);
-  m_wall.initializeGL(m_program);
-  m_wall2.initializeGL(m_program);
-  m_wall3.initializeGL(m_program);
-  m_wall4.initializeGL(m_program);
 
   // Load model
-  loadModelFromFile(getAssetsPath() + "pacman.obj");
+  loadModelFromFile(getAssetsPath() + "bunny.obj");
 
   // Generate VBO
   abcg::glGenBuffers(1, &m_VBO);
   abcg::glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-  abcg::glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertices[0]) * m_vertices.size(), m_vertices.data(), GL_STATIC_DRAW);
+  abcg::glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertices[0]) * m_vertices.size(),
+                     m_vertices.data(), GL_STATIC_DRAW);
   abcg::glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   // Generate EBO
   abcg::glGenBuffers(1, &m_EBO);
   abcg::glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-  abcg::glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(m_indices[0]) * m_indices.size(), m_indices.data(), GL_STATIC_DRAW);
+  abcg::glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+                     sizeof(m_indices[0]) * m_indices.size(), m_indices.data(),
+                     GL_STATIC_DRAW);
   abcg::glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
   // Create VAO
@@ -87,9 +88,11 @@ void OpenGLWindow::initializeGL() {
   abcg::glBindVertexArray(m_VAO);
 
   abcg::glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-  const GLint positionAttribute{ abcg::glGetAttribLocation(m_program, "inPosition")};
+  const GLint positionAttribute{
+      abcg::glGetAttribLocation(m_program, "inPosition")};
   abcg::glEnableVertexAttribArray(positionAttribute);
-  abcg::glVertexAttribPointer(positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
+  abcg::glVertexAttribPointer(positionAttribute, 3, GL_FLOAT, GL_FALSE,
+                              sizeof(Vertex), nullptr);
   abcg::glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   abcg::glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
@@ -98,7 +101,6 @@ void OpenGLWindow::initializeGL() {
   abcg::glBindVertexArray(0);
 
   resizeGL(getWindowSettings().width, getWindowSettings().height);
-  
 }
 
 void OpenGLWindow::loadModelFromFile(std::string_view path) {
@@ -183,22 +185,51 @@ void OpenGLWindow::paintGL() {
 
   abcg::glBindVertexArray(m_VAO);
 
-  // Draw yellow pacman 
+  // Draw white bunny
   glm::mat4 model{1.0f};
+  model = glm::translate(model, glm::vec3(-1.0f, 0.0f, 0.0f));
+  model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0, 1, 0));
+  model = glm::scale(model, glm::vec3(0.5f));
+
+  abcg::glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, &model[0][0]);
+  abcg::glUniform4f(colorLoc, 1.0f, 1.0f, 1.0f, 1.0f);
+  abcg::glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT,
+                       nullptr);
+
+  // Draw yellow bunny
   model = glm::mat4(1.0);
-  model = glm::translate(model, glm::vec3(0.0f, 0.5f, 0.0f));
-  model = glm::scale(model, glm::vec3(0.1f));
+  model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
+  model = glm::scale(model, glm::vec3(0.5f));
 
   abcg::glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, &model[0][0]);
   abcg::glUniform4f(colorLoc, 1.0f, 0.8f, 0.0f, 1.0f);
-  abcg::glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, nullptr);
+  abcg::glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT,
+                       nullptr);
+
+  // Draw blue bunny
+  model = glm::mat4(1.0);
+  model = glm::translate(model, glm::vec3(1.0f, 0.0f, 0.0f));
+  model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0, 1, 0));
+  model = glm::scale(model, glm::vec3(0.5f));
+
+  abcg::glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, &model[0][0]);
+  abcg::glUniform4f(colorLoc, 0.0f, 0.8f, 1.0f, 1.0f);
+  abcg::glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT,
+                       nullptr);
+
+  // Draw red bunny
+  model = glm::mat4(1.0);
+  model = glm::scale(model, glm::vec3(0.1f));
+
+  abcg::glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, &model[0][0]);
+  abcg::glUniform4f(colorLoc, 1.0f, 0.25f, 0.25f, 1.0f);
+  abcg::glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT,
+                       nullptr);
+
+  abcg::glBindVertexArray(0);
 
   // Draw ground
   m_ground.paintGL();
-  m_wall.paintGL();
-  m_wall2.paintGL();
-  m_wall3.paintGL();
-  m_wall4.paintGL();
 
   abcg::glUseProgram(0);
 }
@@ -214,10 +245,6 @@ void OpenGLWindow::resizeGL(int width, int height) {
 
 void OpenGLWindow::terminateGL() {
   m_ground.terminateGL();
-  m_wall.terminateGL();
-  m_wall2.terminateGL();
-  m_wall3.terminateGL();
-  m_wall4.terminateGL();
 
   abcg::glDeleteProgram(m_program);
   abcg::glDeleteBuffers(1, &m_EBO);

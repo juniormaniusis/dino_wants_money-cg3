@@ -1,1 +1,1 @@
-add_subdirectory(lookatPacman)
+add_subdirectory(lookat)
