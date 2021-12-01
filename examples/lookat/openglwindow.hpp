@@ -5,15 +5,8 @@
 
 #include "abcg.hpp"
 #include "camera.hpp"
+#include "pacman.hpp"
 #include "ground.hpp"
-
-struct Vertex {
-  glm::vec3 position;
-
-  bool operator==(const Vertex& other) const {
-    return position == other.position;
-  }
-};
 
 class OpenGLWindow : public abcg::OpenGLWindow {
  protected:
@@ -39,11 +32,8 @@ class OpenGLWindow : public abcg::OpenGLWindow {
   float m_panSpeed{0.0f};
 
   Ground m_ground;
+  Pacman m_pacman;
 
-  std::vector<Vertex> m_vertices;
-  std::vector<GLuint> m_indices;
-
-  void loadModelFromFile(std::string_view path);
   void update();
 };
 
