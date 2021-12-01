@@ -112,6 +112,7 @@ void OpenGLWindow::update() {
   const float deltaTime{static_cast<float>(getDeltaTime())};
 
   // Update LookAt camera
+  m_pacman.update(deltaTime);
   m_camera.dolly(m_dollySpeed * deltaTime);
   m_camera.truck(m_truckSpeed * deltaTime);
   m_camera.pan(m_panSpeed * deltaTime);

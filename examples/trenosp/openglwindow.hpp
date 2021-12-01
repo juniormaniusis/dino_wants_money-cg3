@@ -1,12 +1,11 @@
 #ifndef OPENGLWINDOW_HPP_
 #define OPENGLWINDOW_HPP_
 
-#include <vector>
-
+#include <string_view>
 #include "abcg.hpp"
 #include "camera.hpp"
-#include "ground.hpp"
-#include "pacman.hpp"
+#include "model.hpp"
+#include "kart.hpp"
 
 class OpenGLWindow : public abcg::OpenGLWindow {
  protected:
@@ -18,23 +17,30 @@ class OpenGLWindow : public abcg::OpenGLWindow {
   void terminateGL() override;
 
  private:
-  GLuint m_VAO{};
-  GLuint m_VBO{};
-  GLuint m_EBO{};
   GLuint m_program{};
 
   int m_viewportWidth{};
   int m_viewportHeight{};
 
+  Model m_model;
+  Model m_modelWall;
+  Model m_modelFloor;
   Camera m_camera;
+  Kart m_kart;
   float m_dollySpeed{0.0f};
   float m_truckSpeed{0.0f};
   float m_panSpeed{0.0f};
+  float m_truckVertSpeed{0.0f};
+  float m_panVertSpeed{0.0f};
 
-  Ground m_ground;
-  Pacman m_pacman;
-
+  // Light and material properties
+  glm::vec4 m_lightDir{-1.0f, -1.0f, -1.0f, 0.0f};
+  glm::vec4 m_Ia{1.0f, 1.0f, 1.0f, 1.0f};
+  glm::vec4 m_Id{1.0f, 1.0f, 1.0f, 1.0f};
+  glm::vec4 m_Is{1.0f, 1.0f, 1.0f, 1.0f};
+  
   void update();
+  
 };
 
 #endif

@@ -57,20 +57,21 @@ void Pacman::initializeGL(std::string assetsPath, GLuint program) {
 
   // End of binding to current VAO
   abcg::glBindVertexArray(0);
+
+  computarMatrixModeloInicial();
+}
+
+void Pacman::computarMatrixModeloInicial() {
+  m_modelMatrix = glm::translate(m_modelMatrix, m_posicao_inicial);
+  m_modelMatrix = glm::scale(m_modelMatrix, m_escala_inicial);
 }
 
 void Pacman::paintGL(GLint viewMatrixLoc, GLint projMatrixLoc,
                      GLint modelMatrixLoc, GLint colorLoc) {
   abcg::glBindVertexArray(m_VAO);
 
-  // Draw white bunny
-  glm::mat4 model{1.0f};
-  model = glm::translate(model, glm::vec3(-1.0f, 0.0f, 0.0f));
-  model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0, 1, 0));
-  model = glm::scale(model, glm::vec3(0.5f));
-
   // matriz do modelo
-  abcg::glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, &model[0][0]);
+  abcg::glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, &m_modelMatrix[0][0]);
 
   // cor do coelho
   abcg::glUniform4f(colorLoc, 1.0f, 1.0f, 1.0f, 1.0f);
@@ -79,6 +80,14 @@ void Pacman::paintGL(GLint viewMatrixLoc, GLint projMatrixLoc,
                        nullptr);
 
   abcg::glBindVertexArray(0);
+}
+
+void Pacman::update(float deltaTime) {
+  m_modelMatrix =
+      glm::translate(m_modelMatrix, m_velocidade * m_direcao * deltaTime);
+  // m_modelMatrix =
+  // glm::rotate(m_modelMatrix, glm::radians(90.0f), glm::vec3(0, 1, 0));
+  // m_modelMatrix = glm::scale(m_modelMatrix, glm::vec3(0.5f));
 }
 
 void Pacman::terminateGL() {
