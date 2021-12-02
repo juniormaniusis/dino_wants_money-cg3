@@ -135,4 +135,5 @@ void OpenGLWindow::terminateGL() {
 void OpenGLWindow::update() {
   const float deltaTime{static_cast<float>(getDeltaTime())};
   m_pacman.update(deltaTime);
+  m_camera.update(deltaTime, m_pacman);
 }

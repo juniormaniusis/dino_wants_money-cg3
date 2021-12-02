@@ -52,9 +52,9 @@ void Camera::pan(float speed) {
 }
 
 void Camera::update(float deltaTime, Pacman Pacman) {
-  dolly(m_dollySpeed * deltaTime);
-  truck(m_truckSpeed * deltaTime);
-  pan(m_panSpeed * deltaTime);
+  // dolly(m_dollySpeed * deltaTime);
+  // truck(m_truckSpeed * deltaTime);
+  // pan(m_panSpeed * deltaTime);
 
   olharPara(Pacman.m_posicao_atual);
 }

@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "abcg.hpp"
-
+#include "camera.hpp"
 struct Vertex {
   glm::vec3 position;
 
@@ -43,7 +43,7 @@ class Pacman {
   glm::vec3 m_posicao_atual{glm::vec3(0, 0, 0)};
   glm::vec3 m_direcao{glm::vec3(0, 0, -1)};
   float m_tamanho{1.0f};
-  float m_velocidade{1.0f};
+  float m_velocidade{0.0f};
 
   void loadModelFromFile(std::string_view path);
   void computarMatrixModeloInicial();
