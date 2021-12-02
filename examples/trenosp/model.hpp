@@ -2,6 +2,7 @@
 #define MODEL_HPP_
 
 #include <string_view>
+#include <vector>
 
 #include "abcg.hpp"
 

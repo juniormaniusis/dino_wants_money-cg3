@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
     window->setWindowSettings(
         {.width = 600, .height = 600, .title = "Trenosp"});
 
-    app.run(window);
+    app.run(std::move(window));
   } catch (abcg::Exception &exception) {
     fmt::print(stderr, "{}\n", exception.what());
     return -1;

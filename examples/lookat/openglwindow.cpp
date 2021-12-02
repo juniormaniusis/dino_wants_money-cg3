@@ -28,10 +28,14 @@ void OpenGLWindow::handleEvent(SDL_Event& ev) {
 
     if (ev.key.keysym.sym == SDLK_LEFT || ev.key.keysym.sym == SDLK_a) {
       m_camera.m_panSpeed = -1.0f;
+      m_pacman.m_sentidoRotacao = -1.0f;
     }
+
     if (ev.key.keysym.sym == SDLK_RIGHT || ev.key.keysym.sym == SDLK_d) {
       m_camera.m_panSpeed = 1.0f;
+      m_pacman.m_sentidoRotacao = 1.0f;
     }
+
     if (ev.key.keysym.sym == SDLK_q) {
       m_camera.m_truckSpeed = -1.0f;
     }
@@ -55,10 +59,12 @@ void OpenGLWindow::handleEvent(SDL_Event& ev) {
     if ((ev.key.keysym.sym == SDLK_LEFT || ev.key.keysym.sym == SDLK_a) &&
         m_camera.m_panSpeed < 0) {
       m_camera.m_panSpeed = 0.0f;
+      m_pacman.m_sentidoRotacao = 0.0f;
     }
     if ((ev.key.keysym.sym == SDLK_RIGHT || ev.key.keysym.sym == SDLK_d) &&
         m_camera.m_panSpeed > 0) {
       m_camera.m_panSpeed = 0.0f;
+      m_pacman.m_sentidoRotacao = 0.0f;
     }
     if (ev.key.keysym.sym == SDLK_q && m_camera.m_truckSpeed < 0) {
       m_camera.m_truckSpeed = 0.0f;

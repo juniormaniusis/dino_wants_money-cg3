@@ -5,6 +5,7 @@
 
 #include "abcg.hpp"
 #include "camera.hpp"
+#include "gamedata.hpp"
 struct Vertex {
   glm::vec3 position;
 
@@ -36,14 +37,19 @@ class Pacman {
   std::vector<Vertex> m_vertices;
   std::vector<GLuint> m_indices;
 
-  glm::vec3 m_posicao_inicial{glm::vec3(0, 0, 0)};
-  glm::vec3 m_escala_inicial{glm::vec3(.1f)};
+  glm::vec3 m_posicao_inicial{glm::vec3(0, 1, 0)};
+  glm::vec3 m_escala_inicial{glm::vec3(.005f)};
 
   // posicionamento no espaço
   glm::vec3 m_posicao_atual{glm::vec3(0, 0, 0)};
   glm::vec3 m_direcao{glm::vec3(-1, 0, 0)};
   float m_tamanho{1.0f};
   float m_velocidade{0.0f};
+
+  // m_sentidoRotacao < 0 => sentido anti horario
+  // m_sentidoRotacao > 0 => sentido horario
+  float m_sentidoRotacao{0};
+  float m_angulo{180};
 
   void loadModelFromFile(std::string_view path);
   void computarMatrixModeloInicial();

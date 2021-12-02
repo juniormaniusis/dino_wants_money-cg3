@@ -2,10 +2,12 @@
 
 #include <fmt/core.h>
 #include <tiny_obj_loader.h>
+
 #include <cppitertools/itertools.hpp>
 #include <filesystem>
 #include <glm/gtx/hash.hpp>
 #include <unordered_map>
+#include <vector>
 
 // Custom specialization of std::hash injected in namespace std
 namespace std {
@@ -144,7 +146,7 @@ void Model::loadFromFile(std::string_view path, bool standardize) {
         ny = attrib.normals.at(startIndex + 1);
         nz = attrib.normals.at(startIndex + 2);
       }
-      
+
       // Vertex texture coordinates
       float tu{};
       float tv{};
@@ -215,7 +217,8 @@ void Model::render() {
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-  //GLsizei numIndices = (numTriangles < 0) ? m_indices.size() : numTriangles * 3;
+  // GLsizei numIndices = (numTriangles < 0) ? m_indices.size() : numTriangles *
+  // 3;
 
   glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, nullptr);
 

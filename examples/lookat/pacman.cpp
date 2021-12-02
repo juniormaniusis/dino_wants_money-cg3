@@ -22,7 +22,7 @@ struct hash<Vertex> {
 
 void Pacman::initializeGL(std::string assetsPath, GLuint program) {
   // Load model
-  loadModelFromFile(assetsPath + "bunny.obj");
+  loadModelFromFile(assetsPath + "pacman.obj");
 
   // Generate VBO
   abcg::glGenBuffers(1, &m_VBO);
@@ -58,13 +58,9 @@ void Pacman::initializeGL(std::string assetsPath, GLuint program) {
   // End of binding to current VAO
   abcg::glBindVertexArray(0);
 
-  computarMatrixModeloInicial();
-}
-
-void Pacman::computarMatrixModeloInicial() {
+  auto model = glm::mat4{1};
   m_posicao_atual = m_posicao_inicial;
-  m_modelMatrix = glm::translate(m_modelMatrix, m_posicao_inicial);
-  m_modelMatrix = glm::scale(m_modelMatrix, m_escala_inicial);
+  m_modelMatrix = glm::translate(model, m_posicao_inicial);
 }
 
 void Pacman::paintGL(GLint viewMatrixLoc, GLint projMatrixLoc,
@@ -87,8 +83,11 @@ void Pacman::update(float deltaTime) {
   auto model = glm::mat4{1};
   m_posicao_atual = m_posicao_atual + m_direcao * m_velocidade * deltaTime;
   m_modelMatrix = glm::translate(model, m_posicao_atual);
-  // m_modelMatrix =
-  // glm::rotate(m_modelMatrix, glm::radians(90.0f), glm::vec3(0, 1, 0));
+  m_modelMatrix = glm::scale(m_modelMatrix, m_escala_inicial);
+
+  m_angulo += m_sentidoRotacao * 300 * deltaTime;
+  m_modelMatrix = glm::rotate(m_modelMatrix, glm::radians(m_angulo),
+                              glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 void Pacman::terminateGL() {
