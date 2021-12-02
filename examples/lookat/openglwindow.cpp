@@ -13,34 +13,59 @@
 
 void OpenGLWindow::handleEvent(SDL_Event& ev) {
   if (ev.type == SDL_KEYDOWN) {
-    if (ev.key.keysym.sym == SDLK_UP || ev.key.keysym.sym == SDLK_w)
+    if (ev.key.keysym.sym == SDLK_UP || ev.key.keysym.sym == SDLK_w) {
       m_camera.m_dollySpeed = 1.0f;
-    if (ev.key.keysym.sym == SDLK_DOWN || ev.key.keysym.sym == SDLK_s)
+
+      // segue o movimento na direção que está.
+      m_pacman.m_velocidade = 1;
+    }
+    if (ev.key.keysym.sym == SDLK_DOWN || ev.key.keysym.sym == SDLK_s) {
       m_camera.m_dollySpeed = -1.0f;
-    if (ev.key.keysym.sym == SDLK_LEFT || ev.key.keysym.sym == SDLK_a)
+
+      // segue o movimento na direção contrária que está.
+      m_pacman.m_velocidade = -1;
+    }
+
+    if (ev.key.keysym.sym == SDLK_LEFT || ev.key.keysym.sym == SDLK_a) {
       m_camera.m_panSpeed = -1.0f;
-    if (ev.key.keysym.sym == SDLK_RIGHT || ev.key.keysym.sym == SDLK_d)
+    }
+    if (ev.key.keysym.sym == SDLK_RIGHT || ev.key.keysym.sym == SDLK_d) {
       m_camera.m_panSpeed = 1.0f;
-    if (ev.key.keysym.sym == SDLK_q) m_camera.m_truckSpeed = -1.0f;
-    if (ev.key.keysym.sym == SDLK_e) m_camera.m_truckSpeed = 1.0f;
+    }
+    if (ev.key.keysym.sym == SDLK_q) {
+      m_camera.m_truckSpeed = -1.0f;
+    }
+    if (ev.key.keysym.sym == SDLK_e) {
+      m_camera.m_truckSpeed = 1.0f;
+    }
   }
   if (ev.type == SDL_KEYUP) {
     if ((ev.key.keysym.sym == SDLK_UP || ev.key.keysym.sym == SDLK_w) &&
-        m_camera.m_dollySpeed > 0)
+        m_camera.m_dollySpeed > 0) {
       m_camera.m_dollySpeed = 0.0f;
+      m_pacman.m_velocidade = 0.0f;
+    }
+
     if ((ev.key.keysym.sym == SDLK_DOWN || ev.key.keysym.sym == SDLK_s) &&
-        m_camera.m_dollySpeed < 0)
+        m_camera.m_dollySpeed < 0) {
       m_camera.m_dollySpeed = 0.0f;
+      m_pacman.m_velocidade = 0.0f;
+    }
+
     if ((ev.key.keysym.sym == SDLK_LEFT || ev.key.keysym.sym == SDLK_a) &&
-        m_camera.m_panSpeed < 0)
+        m_camera.m_panSpeed < 0) {
       m_camera.m_panSpeed = 0.0f;
+    }
     if ((ev.key.keysym.sym == SDLK_RIGHT || ev.key.keysym.sym == SDLK_d) &&
-        m_camera.m_panSpeed > 0)
+        m_camera.m_panSpeed > 0) {
       m_camera.m_panSpeed = 0.0f;
-    if (ev.key.keysym.sym == SDLK_q && m_camera.m_truckSpeed < 0)
+    }
+    if (ev.key.keysym.sym == SDLK_q && m_camera.m_truckSpeed < 0) {
       m_camera.m_truckSpeed = 0.0f;
-    if (ev.key.keysym.sym == SDLK_e && m_camera.m_truckSpeed > 0)
+    }
+    if (ev.key.keysym.sym == SDLK_e && m_camera.m_truckSpeed > 0) {
       m_camera.m_truckSpeed = 0.0f;
+    }
   }
 }
 
@@ -123,7 +148,8 @@ void OpenGLWindow::paintUI() {
         // Slider will fill the space of the window
         ImGui::PushItemWidth(m_viewportWidth - 25);
 
-        ImGui::SliderFloat3("", &m_camera.m_distance.x, -5.0f, 5.0f, "%f u.m distância");
+        ImGui::SliderFloat3("", &m_camera.m_distance.x, -5.0f, 5.0f,
+                            "%f u.m distância");
 
         ImGui::PopItemWidth();
       }
