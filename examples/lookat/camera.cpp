@@ -2,6 +2,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "pacman.hpp"
+
 void Camera::computeProjectionMatrix(int width, int height) {
   m_projMatrix = glm::mat4(1.0f);
   const auto aspect{static_cast<float>(width) / static_cast<float>(height)};
@@ -45,6 +47,21 @@ void Camera::pan(float speed) {
   transform = glm::translate(transform, -m_eye);
 
   m_at = transform * glm::vec4(m_at, 1.0f);
+
+  computeViewMatrix();
+}
+
+void Camera::update(float deltaTime, Pacman Pacman) {
+  dolly(m_dollySpeed * deltaTime);
+  truck(m_truckSpeed * deltaTime);
+  pan(m_panSpeed * deltaTime);
+
+  olharPara(Pacman.m_posicao_atual);
+}
+
+void Camera::olharPara(glm::vec3 ponto) {
+  m_at = ponto;
+  m_eye = ponto - glm::vec3(m_distance);
 
   computeViewMatrix();
 }

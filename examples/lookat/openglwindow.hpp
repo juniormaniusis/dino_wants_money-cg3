@@ -5,6 +5,7 @@
 
 #include "abcg.hpp"
 #include "camera.hpp"
+#include "gamedata.hpp"
 #include "ground.hpp"
 #include "pacman.hpp"
 
@@ -27,9 +28,7 @@ class OpenGLWindow : public abcg::OpenGLWindow {
   int m_viewportHeight{};
 
   Camera m_camera;
-  float m_dollySpeed{0.0f};
-  float m_truckSpeed{0.0f};
-  float m_panSpeed{0.0f};
+  
 
   Ground m_ground;
   Pacman m_pacman;

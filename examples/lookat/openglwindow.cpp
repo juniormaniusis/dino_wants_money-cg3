@@ -12,31 +12,33 @@
 void OpenGLWindow::handleEvent(SDL_Event& ev) {
   if (ev.type == SDL_KEYDOWN) {
     if (ev.key.keysym.sym == SDLK_UP || ev.key.keysym.sym == SDLK_w)
-      m_dollySpeed = 1.0f;
+      m_camera.m_dollySpeed = 1.0f;
     if (ev.key.keysym.sym == SDLK_DOWN || ev.key.keysym.sym == SDLK_s)
-      m_dollySpeed = -1.0f;
+      m_camera.m_dollySpeed = -1.0f;
     if (ev.key.keysym.sym == SDLK_LEFT || ev.key.keysym.sym == SDLK_a)
-      m_panSpeed = -1.0f;
+      m_camera.m_panSpeed = -1.0f;
     if (ev.key.keysym.sym == SDLK_RIGHT || ev.key.keysym.sym == SDLK_d)
-      m_panSpeed = 1.0f;
-    if (ev.key.keysym.sym == SDLK_q) m_truckSpeed = -1.0f;
-    if (ev.key.keysym.sym == SDLK_e) m_truckSpeed = 1.0f;
+      m_camera.m_panSpeed = 1.0f;
+    if (ev.key.keysym.sym == SDLK_q) m_camera.m_truckSpeed = -1.0f;
+    if (ev.key.keysym.sym == SDLK_e) m_camera.m_truckSpeed = 1.0f;
   }
   if (ev.type == SDL_KEYUP) {
     if ((ev.key.keysym.sym == SDLK_UP || ev.key.keysym.sym == SDLK_w) &&
-        m_dollySpeed > 0)
-      m_dollySpeed = 0.0f;
+        m_camera.m_dollySpeed > 0)
+      m_camera.m_dollySpeed = 0.0f;
     if ((ev.key.keysym.sym == SDLK_DOWN || ev.key.keysym.sym == SDLK_s) &&
-        m_dollySpeed < 0)
-      m_dollySpeed = 0.0f;
+        m_camera.m_dollySpeed < 0)
+      m_camera.m_dollySpeed = 0.0f;
     if ((ev.key.keysym.sym == SDLK_LEFT || ev.key.keysym.sym == SDLK_a) &&
-        m_panSpeed < 0)
-      m_panSpeed = 0.0f;
+        m_camera.m_panSpeed < 0)
+      m_camera.m_panSpeed = 0.0f;
     if ((ev.key.keysym.sym == SDLK_RIGHT || ev.key.keysym.sym == SDLK_d) &&
-        m_panSpeed > 0)
-      m_panSpeed = 0.0f;
-    if (ev.key.keysym.sym == SDLK_q && m_truckSpeed < 0) m_truckSpeed = 0.0f;
-    if (ev.key.keysym.sym == SDLK_e && m_truckSpeed > 0) m_truckSpeed = 0.0f;
+        m_camera.m_panSpeed > 0)
+      m_camera.m_panSpeed = 0.0f;
+    if (ev.key.keysym.sym == SDLK_q && m_camera.m_truckSpeed < 0)
+      m_camera.m_truckSpeed = 0.0f;
+    if (ev.key.keysym.sym == SDLK_e && m_camera.m_truckSpeed > 0)
+      m_camera.m_truckSpeed = 0.0f;
   }
 }
 
@@ -90,7 +92,29 @@ void OpenGLWindow::paintGL() {
   abcg::glUseProgram(0);
 }
 
-void OpenGLWindow::paintUI() { abcg::OpenGLWindow::paintUI(); }
+void OpenGLWindow::paintUI() {
+  abcg::OpenGLWindow::paintUI();
+
+  // Create window for slider
+  {
+    ImGui::SetNextWindowPos(ImVec2(5, m_viewportHeight - 94));
+    ImGui::SetNextWindowSize(ImVec2(m_viewportWidth - 10, -1));
+    ImGui::Begin("Slider window", nullptr, ImGuiWindowFlags_NoDecoration);
+
+    // Create a slider to control the number of rendered triangles
+    {
+      // Slider will fill the space of the window
+      ImGui::PushItemWidth(m_viewportWidth - 25);
+
+      ImGui::SliderFloat3("", &m_camera.m_distance.x, -100.0f, 100.0f,
+                          "%f triangles");
+
+      ImGui::PopItemWidth();
+    }
+
+    ImGui::End();
+  }
+}
 
 void OpenGLWindow::resizeGL(int width, int height) {
   m_viewportWidth = width;
@@ -110,10 +134,5 @@ void OpenGLWindow::terminateGL() {
 
 void OpenGLWindow::update() {
   const float deltaTime{static_cast<float>(getDeltaTime())};
-
-  // Update LookAt camera
   m_pacman.update(deltaTime);
-  m_camera.dolly(m_dollySpeed * deltaTime);
-  m_camera.truck(m_truckSpeed * deltaTime);
-  m_camera.pan(m_panSpeed * deltaTime);
 }

@@ -12,7 +12,7 @@ struct Vertex {
     return position == other.position;
   }
 };
-
+class OpenGLWindow;
 class Pacman {
  public:
   void initializeGL(std::string assetsPath, GLuint program);
@@ -22,6 +22,8 @@ class Pacman {
   void update(float deltaTime);
 
  private:
+  friend OpenGLWindow;
+  friend Camera;
   GLuint m_VAO{};
   GLuint m_VBO{};
   GLuint m_EBO{};
@@ -38,9 +40,10 @@ class Pacman {
   glm::vec3 m_escala_inicial{glm::vec3(.5f)};
 
   // posicionamento no espaço
+  glm::vec3 m_posicao_atual{glm::vec3(0, 0, 0)};
+  glm::vec3 m_direcao{glm::vec3(0, 0, -1)};
   float m_tamanho{1.0f};
   float m_velocidade{1.0f};
-  glm::vec3 m_direcao{glm::vec3(0, 0, 0)};
 
   void loadModelFromFile(std::string_view path);
   void computarMatrixModeloInicial();

@@ -62,6 +62,7 @@ void Pacman::initializeGL(std::string assetsPath, GLuint program) {
 }
 
 void Pacman::computarMatrixModeloInicial() {
+  m_posicao_atual = m_posicao_inicial;
   m_modelMatrix = glm::translate(m_modelMatrix, m_posicao_inicial);
   m_modelMatrix = glm::scale(m_modelMatrix, m_escala_inicial);
 }
@@ -83,11 +84,11 @@ void Pacman::paintGL(GLint viewMatrixLoc, GLint projMatrixLoc,
 }
 
 void Pacman::update(float deltaTime) {
-  m_modelMatrix =
-      glm::translate(m_modelMatrix, m_velocidade * m_direcao * deltaTime);
+  auto model = glm::mat4{1};
+  m_posicao_atual = m_posicao_atual + m_direcao * m_velocidade * deltaTime;
+  m_modelMatrix = glm::translate(model, m_posicao_atual);
   // m_modelMatrix =
   // glm::rotate(m_modelMatrix, glm::radians(90.0f), glm::vec3(0, 1, 0));
-  // m_modelMatrix = glm::scale(m_modelMatrix, glm::vec3(0.5f));
 }
 
 void Pacman::terminateGL() {
