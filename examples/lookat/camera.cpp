@@ -52,11 +52,13 @@ void Camera::pan(float speed) {
 }
 
 void Camera::update(float deltaTime, Pacman Pacman) {
-  // dolly(m_dollySpeed * deltaTime);
-  // truck(m_truckSpeed * deltaTime);
-  // pan(m_panSpeed * deltaTime);
-
-  olharPara(Pacman.m_posicao_atual);
+  if (m_cameraMode == CameraMode::Fixa) {
+    olharPara(Pacman.m_posicao_atual);
+  } else if (m_cameraMode == CameraMode::Livre) {
+    dolly(m_dollySpeed * deltaTime);
+    truck(m_truckSpeed * deltaTime);
+    pan(m_panSpeed * deltaTime);
+  }
 }
 
 void Camera::olharPara(glm::vec3 ponto) {

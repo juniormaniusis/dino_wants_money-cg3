@@ -9,6 +9,8 @@
 #include <glm/gtx/hash.hpp>
 #include <unordered_map>
 
+#include "gamedata.hpp"
+
 void OpenGLWindow::handleEvent(SDL_Event& ev) {
   if (ev.type == SDL_KEYDOWN) {
     if (ev.key.keysym.sym == SDLK_UP || ev.key.keysym.sym == SDLK_w)
@@ -95,21 +97,38 @@ void OpenGLWindow::paintGL() {
 void OpenGLWindow::paintUI() {
   abcg::OpenGLWindow::paintUI();
 
-  // Create window for slider
+  // Create a window for the other widgets
   {
-    ImGui::SetNextWindowPos(ImVec2(5, m_viewportHeight - 94));
-    ImGui::SetNextWindowSize(ImVec2(m_viewportWidth - 10, -1));
-    ImGui::Begin("Slider window", nullptr, ImGuiWindowFlags_NoDecoration);
+    const auto widgetSize{ImVec2(222, 90)};
+    ImGui::SetNextWindowPos(ImVec2(m_viewportWidth - widgetSize.x - 5, 5));
+    ImGui::SetNextWindowSize(widgetSize);
+    ImGui::Begin("Widget window", nullptr, ImGuiWindowFlags_NoDecoration);
 
-    // Create a slider to control the number of rendered triangles
+    static bool cameraFixa{true};
+    ImGui::Checkbox("Camera Fixa", &cameraFixa);
+
+    if (cameraFixa) {
+      m_camera.m_cameraMode = CameraMode::Fixa;
+    } else {
+      m_camera.m_cameraMode = CameraMode::Livre;
+    }
+
     {
-      // Slider will fill the space of the window
-      ImGui::PushItemWidth(m_viewportWidth - 25);
+      ImGui::SetNextWindowPos(ImVec2(5, m_viewportHeight - 94));
+      ImGui::SetNextWindowSize(ImVec2(m_viewportWidth - 10, -1));
+      ImGui::Begin("Slider window", nullptr, ImGuiWindowFlags_NoDecoration);
 
-      ImGui::SliderFloat3("", &m_camera.m_distance.x, -100.0f, 100.0f,
-                          "%f triangles");
+      // Create a slider to control the number of rendered triangles
+      {
+        // Slider will fill the space of the window
+        ImGui::PushItemWidth(m_viewportWidth - 25);
 
-      ImGui::PopItemWidth();
+        ImGui::SliderFloat3("", &m_camera.m_distance.x, -5.0f, 5.0f, "%f u.m distância");
+
+        ImGui::PopItemWidth();
+      }
+
+      ImGui::End();
     }
 
     ImGui::End();

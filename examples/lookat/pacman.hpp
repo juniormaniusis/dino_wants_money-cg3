@@ -37,7 +37,7 @@ class Pacman {
   std::vector<GLuint> m_indices;
 
   glm::vec3 m_posicao_inicial{glm::vec3(0, 0, 0)};
-  glm::vec3 m_escala_inicial{glm::vec3(.5f)};
+  glm::vec3 m_escala_inicial{glm::vec3(.1f)};
 
   // posicionamento no espaço
   glm::vec3 m_posicao_atual{glm::vec3(0, 0, 0)};
