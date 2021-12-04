@@ -5,6 +5,7 @@
 #include <tiny_obj_loader.h>
 
 #include <cppitertools/itertools.hpp>
+#include <glm/gtc/matrix_inverse.hpp>
 #include <glm/gtx/fast_trigonometry.hpp>
 #include <glm/gtx/hash.hpp>
 #include <unordered_map>
@@ -76,18 +77,24 @@ void OpenGLWindow::handleEvent(SDL_Event& ev) {
 }
 
 void OpenGLWindow::initializeGL() {
-  abcg::glClearColor(0, 0, 0, 1);
+  abcg::glClearColor(.2, .5, .8, 1);
 
   // Enable depth buffering
   abcg::glEnable(GL_DEPTH_TEST);
 
   // Create program
-  m_program = createProgramFromFile(getAssetsPath() + "lookat.vert",
-                                    getAssetsPath() + "lookat.frag");
+  m_program = createProgramFromFile(getAssetsPath() + "shaders/texture.vert",
+                                    getAssetsPath() + "shaders/texture.frag");
 
-  m_pacman.initializeGL(getAssetsPath(), m_program);
+  m_parede1.initializeGL(m_program, getAssetsPath(), glm::vec3(0),
+                         glm::vec3(3, 0, 0));
+
+  m_modelFloor.loadDiffuseTexture(getAssetsPath() + "maps/floor.jpg");
+  m_modelFloor.loadFromFile(getAssetsPath() + "track_floor.obj");
+  m_modelFloor.setupVAO(m_program);
   m_ground.initializeGL(m_program);
 
+  // configura a tela para as dimensões iniciais.
   resizeGL(getWindowSettings().width, getWindowSettings().height);
 }
 
@@ -101,28 +108,30 @@ void OpenGLWindow::paintGL() {
 
   abcg::glUseProgram(m_program);
 
-  // Get location of uniform variables (could be precomputed)
-  const GLint viewMatrixLoc{
-      abcg::glGetUniformLocation(m_program, "viewMatrix")};
-  const GLint projMatrixLoc{
-      abcg::glGetUniformLocation(m_program, "projMatrix")};
-  const GLint modelMatrixLoc{
-      abcg::glGetUniformLocation(m_program, "modelMatrix")};
-  const GLint colorLoc{abcg::glGetUniformLocation(m_program, "color")};
+  GLint viewMatrixLoc{glGetUniformLocation(m_program, "viewMatrix")};
+  GLint projMatrixLoc{glGetUniformLocation(m_program, "projMatrix")};
 
-  // Set uniform variables for viewMatrix and projMatrix
-  // These matrices are used for every scene object
-  abcg::glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE,
-                           &m_camera.m_viewMatrix[0][0]);
-  abcg::glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE,
-                           &m_camera.m_projMatrix[0][0]);
+  GLint lightDirLoc{glGetUniformLocation(m_program, "lightDirWorldSpace")};
 
-  m_pacman.paintGL(viewMatrixLoc, projMatrixLoc, modelMatrixLoc, colorLoc);
+  GLint IaLoc{glGetUniformLocation(m_program, "Ia")};
+  GLint IdLoc{glGetUniformLocation(m_program, "Id")};
+  GLint IsLoc{glGetUniformLocation(m_program, "Is")};
 
-  // Draw ground
-  m_ground.paintGL();
+  GLint diffuseTexLoc{glGetUniformLocation(m_program, "diffuseTex")};
 
-  abcg::glUseProgram(0);
+  // todos
+  glUniform4fv(lightDirLoc, 1, &m_lightDir.x);
+  glUniform4fv(IaLoc, 1, &m_Ia.x);
+  glUniform4fv(IdLoc, 1, &m_Id.x);
+  glUniform4fv(IsLoc, 1, &m_Is.x);
+  glUniform1i(diffuseTexLoc, 0);
+
+  glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, &m_camera.m_viewMatrix[0][0]);
+  glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, &m_camera.m_projMatrix[0][0]);
+
+  m_parede1.paintGL(m_program, m_camera.m_viewMatrix);
+
+  glUseProgram(0);
 }
 
 void OpenGLWindow::paintUI() {
@@ -184,7 +193,8 @@ void OpenGLWindow::terminateGL() {
 }
 
 void OpenGLWindow::update() {
+  m_lightDir = glm::vec4(glm::normalize(m_camera.m_at - m_camera.m_eye), 0);
   const float deltaTime{static_cast<float>(getDeltaTime())};
   m_pacman.update(deltaTime);
-  m_camera.update(deltaTime, m_pacman);
+  m_camera.update(deltaTime, m_pacman.m_posicao_atual);
 }

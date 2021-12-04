@@ -7,7 +7,9 @@
 #include "camera.hpp"
 #include "gamedata.hpp"
 #include "ground.hpp"
+#include "model.hpp"
 #include "pacman.hpp"
+#include "parede.hpp"
 
 class OpenGLWindow : public abcg::OpenGLWindow {
  protected:
@@ -28,10 +30,19 @@ class OpenGLWindow : public abcg::OpenGLWindow {
   int m_viewportHeight{};
 
   Camera m_camera;
-  
 
   Ground m_ground;
   Pacman m_pacman;
+
+  Parede m_parede1;
+
+  Model m_modelFloor;
+
+  // TODO:: REVISAR
+  glm::vec4 m_lightDir{-1.0f, -1.0f, -1.0f, 0.0f};
+  glm::vec4 m_Ia{1.0f, 1.0f, 1.0f, 1.0f};
+  glm::vec4 m_Id{1.0f, 1.0f, 1.0f, 1.0f};
+  glm::vec4 m_Is{1.0f, 1.0f, 1.0f, 1.0f};
 
   void update();
 };

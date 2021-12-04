@@ -19,16 +19,16 @@ out vec3 fragPObj;
 out vec3 fragNObj;
 
 void main() {
-    vec3 P = (viewMatrix * modelMatrix * vec4(inPosition, 1.0)).xyz;
-    vec3 N = normalMatrix * inNormal;
-    vec3 L = -(viewMatrix * lightDirWorldSpace).xyz;
+  vec3 P = (viewMatrix * modelMatrix * vec4(inPosition, 1.0)).xyz;
+  vec3 N = normalMatrix * inNormal;
+  vec3 L = -(viewMatrix * lightDirWorldSpace).xyz;
 
-    fragL = L;
-    fragV = -P;
-    fragN = N;
-    fragTexCoord = inTexCoord;
-    fragPObj = inPosition;
-    fragNObj = inNormal;
+  fragL = L;
+  fragV = -P;
+  fragN = N;
+  fragTexCoord = inTexCoord;
+  fragPObj = inPosition;
+  fragNObj = inNormal;
 
-    gl_Position = projMatrix * vec4(P, 1.0);
+  gl_Position = projMatrix * vec4(P, 1.0);
 }

@@ -39,7 +39,7 @@ class Camera {
   float m_truckSpeed{0.0f};
   float m_panSpeed{0.0f};
 
-  void update(float deltaTime, Pacman pacman);
+  void update(float deltaTime, glm::vec3 ponto);
 };
 
 #endif

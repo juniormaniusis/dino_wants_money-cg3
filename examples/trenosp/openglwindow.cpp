@@ -122,32 +122,32 @@ void OpenGLWindow::paintGL() {
 
   m_model.render();
 
-  glm::mat4 wallModel{1.0f};
-  // current
-  glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, &wallModel[0][0]);
+  // glm::mat4 wallModel{1.0f};
+  // // current
+  // glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, &wallModel[0][0]);
 
-  auto modelViewMatrix2{
-      glm::mat3(m_camera.m_viewMatrix * wallModel)};  // se pá nem precisa
-  glm::mat3 normalMatrix2{glm::inverseTranspose(modelViewMatrix2)};
-  glUniformMatrix3fv(normalMatrixLoc, 1, GL_FALSE, &normalMatrix2[0][0]);
+  // auto modelViewMatrix2{
+  //     glm::mat3(m_camera.m_viewMatrix * wallModel)};  // se pá nem precisa
+  // glm::mat3 normalMatrix2{glm::inverseTranspose(modelViewMatrix2)};
+  // glUniformMatrix3fv(normalMatrixLoc, 1, GL_FALSE, &normalMatrix2[0][0]);
 
-  // modelWall
-  glUniform1f(shininessLoc, m_modelWall.m_shininess);
-  glUniform4fv(KaLoc, 1, &m_modelWall.m_Ka.x);
-  glUniform4fv(KdLoc, 1, &m_modelWall.m_Kd.x);
-  glUniform4fv(KsLoc, 1, &m_modelWall.m_Ks.x);
+  // // modelWall
+  // glUniform1f(shininessLoc, m_modelWall.m_shininess);
+  // glUniform4fv(KaLoc, 1, &m_modelWall.m_Ka.x);
+  // glUniform4fv(KdLoc, 1, &m_modelWall.m_Kd.x);
+  // glUniform4fv(KsLoc, 1, &m_modelWall.m_Ks.x);
 
-  glUniform1i(mappingModeLoc, 0);  // o mesmo para os dois
+  // glUniform1i(mappingModeLoc, 0);  // o mesmo para os dois
 
-  m_modelWall.render();
+  // m_modelWall.render();
 
-  // modelFloor
-  glUniform1f(shininessLoc, m_modelFloor.m_shininess);
-  glUniform4fv(KaLoc, 1, &m_modelFloor.m_Ka.x);
-  glUniform4fv(KdLoc, 1, &m_modelFloor.m_Kd.x);
-  glUniform4fv(KsLoc, 1, &m_modelFloor.m_Ks.x);
+  // // modelFloor
+  // glUniform1f(shininessLoc, m_modelFloor.m_shininess);
+  // glUniform4fv(KaLoc, 1, &m_modelFloor.m_Ka.x);
+  // glUniform4fv(KdLoc, 1, &m_modelFloor.m_Kd.x);
+  // glUniform4fv(KsLoc, 1, &m_modelFloor.m_Ks.x);
 
-  m_modelFloor.render();
+  // m_modelFloor.render();
 
   glUseProgram(0);
 }

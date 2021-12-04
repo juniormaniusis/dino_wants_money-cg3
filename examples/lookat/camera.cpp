@@ -51,9 +51,9 @@ void Camera::pan(float speed) {
   computeViewMatrix();
 }
 
-void Camera::update(float deltaTime, Pacman Pacman) {
+void Camera::update(float deltaTime, glm::vec3 posicao) {
   if (m_cameraMode == CameraMode::Fixa) {
-    olharPara(Pacman.m_posicao_atual);
+    olharPara(posicao);
   } else if (m_cameraMode == CameraMode::Livre) {
     dolly(m_dollySpeed * deltaTime);
     truck(m_truckSpeed * deltaTime);

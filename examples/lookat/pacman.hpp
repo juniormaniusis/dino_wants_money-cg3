@@ -6,16 +6,11 @@
 #include "abcg.hpp"
 #include "camera.hpp"
 #include "gamedata.hpp"
-struct Vertex {
-  glm::vec3 position;
-
-  bool operator==(const Vertex& other) const {
-    return position == other.position;
-  }
-};
+#include "model.hpp"
 class OpenGLWindow;
 class Pacman {
  public:
+  ~Pacman();
   void initializeGL(std::string assetsPath, GLuint program);
   void paintGL(GLint viewMatrixLoc, GLint projMatrixLoc, GLint modelMatrixLoc,
                GLint colorLoc);
@@ -25,20 +20,11 @@ class Pacman {
  private:
   friend OpenGLWindow;
   friend Camera;
-  GLuint m_VAO{};
-  GLuint m_VBO{};
-  GLuint m_EBO{};
-
-  GLint m_modelMatrixLoc{};
+  Model m_model;
   glm::mat4 m_modelMatrix{1.0f};
 
-  GLint m_colorLoc{};
-
-  std::vector<Vertex> m_vertices;
-  std::vector<GLuint> m_indices;
-
-  glm::vec3 m_posicao_inicial{glm::vec3(0, 1, 0)};
-  glm::vec3 m_escala_inicial{glm::vec3(.005f)};
+  glm::vec3 m_posicao_inicial{-0.9f, 0.0f, 4.0f};//{glm::vec3(0, 1, 0)};
+  glm::vec3 m_escala_inicial{glm::vec3(.025f)};
 
   // posicionamento no espaço
   glm::vec3 m_posicao_atual{glm::vec3(0, 0, 0)};
@@ -47,12 +33,9 @@ class Pacman {
   float m_velocidade{0.0f};
 
   // m_sentidoRotacao < 0 => sentido anti horario
-  // m_sentidoRotacao > 0 => sentido horario
+  // m_sentidoRotacao > 0 => sentido horario 
   float m_sentidoRotacao{0};
-  float m_angulo{180};
-
-  void loadModelFromFile(std::string_view path);
-  void computarMatrixModeloInicial();
+  float m_angulo{180}; //usar wrapangle depois
 };
 
 #endif
