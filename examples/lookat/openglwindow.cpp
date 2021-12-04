@@ -77,7 +77,7 @@ void OpenGLWindow::handleEvent(SDL_Event& ev) {
 }
 
 void OpenGLWindow::initializeGL() {
-  abcg::glClearColor(.2, .5, .8, 1);
+  abcg::glClearColor(.3, .3, .3, 1);
 
   // Enable depth buffering
   abcg::glEnable(GL_DEPTH_TEST);
@@ -88,11 +88,12 @@ void OpenGLWindow::initializeGL() {
 
   m_parede1.initializeGL(m_program, getAssetsPath(), glm::vec3(0),
                          glm::vec3(3, 0, 0));
+  m_chao.initializeGL(m_program, getAssetsPath(), 4);
+  m_pacman.initializeGL(getAssetsPath(), m_program);//todo: inverter esses parametros
 
   m_modelFloor.loadDiffuseTexture(getAssetsPath() + "maps/floor.jpg");
   m_modelFloor.loadFromFile(getAssetsPath() + "track_floor.obj");
   m_modelFloor.setupVAO(m_program);
-  m_ground.initializeGL(m_program);
 
   // configura a tela para as dimensões iniciais.
   resizeGL(getWindowSettings().width, getWindowSettings().height);
@@ -130,7 +131,8 @@ void OpenGLWindow::paintGL() {
   glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, &m_camera.m_projMatrix[0][0]);
 
   m_parede1.paintGL(m_program, m_camera.m_viewMatrix);
-
+  m_chao.paintGL(m_program, m_camera.m_viewMatrix);
+  m_pacman.paintGL(m_program, m_camera.m_viewMatrix);
   glUseProgram(0);
 }
 
@@ -184,7 +186,7 @@ void OpenGLWindow::resizeGL(int width, int height) {
 }
 
 void OpenGLWindow::terminateGL() {
-  m_ground.terminateGL();
+  // m_ground.terminateGL();
   m_pacman.terminateGL();
   abcg::glDeleteProgram(m_program);
   abcg::glDeleteBuffers(1, &m_EBO);

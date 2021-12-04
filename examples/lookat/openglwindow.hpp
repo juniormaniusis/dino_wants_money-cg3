@@ -5,8 +5,8 @@
 
 #include "abcg.hpp"
 #include "camera.hpp"
+#include "chao.hpp"
 #include "gamedata.hpp"
-#include "ground.hpp"
 #include "model.hpp"
 #include "pacman.hpp"
 #include "parede.hpp"
@@ -31,7 +31,7 @@ class OpenGLWindow : public abcg::OpenGLWindow {
 
   Camera m_camera;
 
-  Ground m_ground;
+  Chao m_chao;
   Pacman m_pacman;
 
   Parede m_parede1;

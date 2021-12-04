@@ -12,8 +12,7 @@ class Pacman {
  public:
   ~Pacman();
   void initializeGL(std::string assetsPath, GLuint program);
-  void paintGL(GLint viewMatrixLoc, GLint projMatrixLoc, GLint modelMatrixLoc,
-               GLint colorLoc);
+  void paintGL(GLuint program, glm::mat4 cameraViewMatrix);
   void terminateGL();
   void update(float deltaTime);
 
@@ -23,7 +22,7 @@ class Pacman {
   Model m_model;
   glm::mat4 m_modelMatrix{1.0f};
 
-  glm::vec3 m_posicao_inicial{-0.9f, 0.0f, 4.0f};//{glm::vec3(0, 1, 0)};
+  glm::vec3 m_posicao_inicial{-0.9f, 0.0f, 4.0f};  //{glm::vec3(0, 1, 0)};
   glm::vec3 m_escala_inicial{glm::vec3(.025f)};
 
   // posicionamento no espaço
@@ -33,9 +32,9 @@ class Pacman {
   float m_velocidade{0.0f};
 
   // m_sentidoRotacao < 0 => sentido anti horario
-  // m_sentidoRotacao > 0 => sentido horario 
+  // m_sentidoRotacao > 0 => sentido horario
   float m_sentidoRotacao{0};
-  float m_angulo{180}; //usar wrapangle depois
+  float m_angulo{180};  // usar wrapangle depois
 };
 
 #endif
