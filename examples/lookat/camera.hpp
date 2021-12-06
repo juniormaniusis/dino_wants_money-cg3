@@ -13,17 +13,24 @@ class Camera {
   void computeViewMatrix();
   void olharPara(glm::vec3 ponto);
   void computeProjectionMatrix(int width, int height);
-
+  glm::vec3 getDirection();
   void dolly(float speed);
   void truck(float speed);
   void pan(float speed);
+  void rotacaoFixa(float velocidade, glm::vec3 posicao);
+  void imprime(glm::mat4 mat);
+  void initialize(glm::vec3 posicao);
+
+  float distanceFromPlayer = 50;
+  float angleAroundPlayer = 0;
+  ;
 
  private:
   friend OpenGLWindow;
   friend Pacman;
   glm::vec3 m_eye{glm::vec3(0.0f, 0.5f, 2.5f)};  // Camera position
 
-  glm::vec3 m_distance{glm::vec3(-2.85, -2.85, 0)};  // distancia do objeto
+  glm::vec3 m_distance{glm::vec3(-2.0f, -1.2f, 0)};  // distancia do objeto
 
   glm::vec3 m_at{glm::vec3(0.0f, 0.5f, 0.0f)};  // Look-at point
   glm::vec3 m_up{glm::vec3(0.0f, 1.0f, 0.0f)};  // "up" direction
@@ -39,7 +46,7 @@ class Camera {
   float m_truckSpeed{0.0f};
   float m_panSpeed{0.0f};
 
-  void update(float deltaTime, glm::vec3 ponto);
+  void update(float deltaTime, glm::vec3 ponto, float rotacao);
 };
 
 #endif

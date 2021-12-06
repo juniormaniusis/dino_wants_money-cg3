@@ -44,13 +44,15 @@ void Pacman::paintGL(GLuint program, glm::mat4 cameraViewMatrix) {
   m_model.render();
 }
 
-void Pacman::update(float deltaTime) {
+void Pacman::update(float deltaTime, glm::vec3 direction) {
   auto model = glm::mat4{1};
-  m_posicao_atual = m_posicao_atual + m_direcao * m_velocidade * deltaTime;
+  m_posicao_atual = m_posicao_atual + direction * m_velocidade * deltaTime;
   m_modelMatrix = glm::translate(model, m_posicao_atual);
   m_modelMatrix = glm::scale(m_modelMatrix, m_escala_inicial);
-  m_modelMatrix = glm::rotate(m_modelMatrix, glm::radians(-90.0f), glm::vec3(1, 0, 0));
-  m_modelMatrix = glm::rotate(m_modelMatrix, glm::radians(-90.0f), glm::vec3(0, 0, 1));
+  m_modelMatrix =
+      glm::rotate(m_modelMatrix, glm::radians(-90.0f), glm::vec3(1, 0, 0));
+  m_modelMatrix =
+      glm::rotate(m_modelMatrix, glm::radians(-90.0f), glm::vec3(0, 0, 1));
   // m_angulo += m_sentidoRotacao * 300 * deltaTime;
   // m_modelMatrix = glm::rotate(m_modelMatrix, glm::radians(m_angulo),
   //                             glm::vec3(0.0f, 1.0f, 0.0f));

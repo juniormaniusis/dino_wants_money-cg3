@@ -14,7 +14,7 @@ class Pacman {
   void initializeGL(std::string assetsPath, GLuint program);
   void paintGL(GLuint program, glm::mat4 cameraViewMatrix);
   void terminateGL();
-  void update(float deltaTime);
+  void update(float deltaTime, glm::vec3 direction);
 
  private:
   friend OpenGLWindow;
@@ -27,7 +27,7 @@ class Pacman {
 
   // posicionamento no espaço
   glm::vec3 m_posicao_atual{glm::vec3(0, 0, 0)};
-  glm::vec3 m_direcao{glm::vec3(-1, 0, 0)};
+
   float m_tamanho{1.0f};
   float m_velocidade{0.0f};
 

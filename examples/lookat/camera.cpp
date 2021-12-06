@@ -51,15 +51,46 @@ void Camera::pan(float speed) {
   computeViewMatrix();
 }
 
-void Camera::update(float deltaTime, glm::vec3 posicao) {
+void Camera::imprime(glm::mat4 mat) {
+  for (int i = 0; i < 4; i++) {
+    printf("(%f, %f, %f, %f)\n", mat[i][0], mat[i][1], mat[i][2], mat[i][3]);
+  }
+}
+
+void Camera::rotacaoFixa(float velocidade, glm::vec3 posicao) {
+  if (velocidade != 0) {
+    glm::mat4 transform{glm::mat4(1.0f)};
+
+    // Rotate camera around its local y axis
+    transform = glm::translate(transform, m_eye);
+    transform = glm::rotate(transform, -velocidade, m_up);
+    transform = glm::translate(transform, -m_eye);
+
+    m_distance = transform * glm::vec4(m_distance, 1.0f);
+    m_distance.y = -1.2f;
+    // m_distance *= distancia;
+
+    m_at = posicao;
+    m_eye = posicao - glm::vec3(m_distance);
+
+    computeViewMatrix();
+  }
+}
+
+void Camera::update(float deltaTime, glm::vec3 posicao, float rotacao) {
   if (m_cameraMode == CameraMode::Fixa) {
-    olharPara(posicao);
+    rotacaoFixa(rotacao * deltaTime, posicao);
+    // olharPara(posicao);
   } else if (m_cameraMode == CameraMode::Livre) {
     dolly(m_dollySpeed * deltaTime);
     truck(m_truckSpeed * deltaTime);
     pan(m_panSpeed * deltaTime);
   }
 }
+
+glm::vec3 Camera::getDirection() { return glm::normalize(m_at - m_eye); }
+
+void Camera::initialize(glm::vec3 posicao) { olharPara(posicao); }
 
 void Camera::olharPara(glm::vec3 ponto) {
   m_at = ponto;

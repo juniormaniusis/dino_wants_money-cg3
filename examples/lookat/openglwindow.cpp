@@ -89,7 +89,10 @@ void OpenGLWindow::initializeGL() {
   m_parede1.initializeGL(m_program, getAssetsPath(), glm::vec3(0),
                          glm::vec3(3, 0, 0));
   m_chao.initializeGL(m_program, getAssetsPath(), 4);
-  m_pacman.initializeGL(getAssetsPath(), m_program);//todo: inverter esses parametros
+  m_pacman.initializeGL(getAssetsPath(),
+                        m_program);  // todo: inverter esses parametros
+
+  m_camera.initialize(m_pacman.m_posicao_inicial);
 
   m_modelFloor.loadDiffuseTexture(getAssetsPath() + "maps/floor.jpg");
   m_modelFloor.loadFromFile(getAssetsPath() + "track_floor.obj");
@@ -155,25 +158,26 @@ void OpenGLWindow::paintUI() {
       m_camera.m_cameraMode = CameraMode::Livre;
     }
 
-    {
-      ImGui::SetNextWindowPos(ImVec2(5, m_viewportHeight - 94));
-      ImGui::SetNextWindowSize(ImVec2(m_viewportWidth - 10, -1));
-      ImGui::Begin("Slider window", nullptr, ImGuiWindowFlags_NoDecoration);
-
-      // Create a slider to control the number of rendered triangles
+    /*
       {
-        // Slider will fill the space of the window
-        ImGui::PushItemWidth(m_viewportWidth - 25);
+        ImGui::SetNextWindowPos(ImVec2(5, m_viewportHeight - 94));
+        ImGui::SetNextWindowSize(ImVec2(m_viewportWidth - 10, -1));
+        ImGui::Begin("Slider window", nullptr, ImGuiWindowFlags_NoDecoration);
 
-        ImGui::SliderFloat3("", &m_camera.m_distance.x, -5.0f, 5.0f,
-                            "%f u.m distância");
+        // Create a slider to control the number of rendered triangles
+        {
+          // Slider will fill the space of the window
+          ImGui::PushItemWidth(m_viewportWidth - 25);
 
-        ImGui::PopItemWidth();
+          ImGui::SliderFloat3("", &m_camera.m_distance.x, -5.0f, 5.0f,
+                              "%f u.m distância");
+
+          ImGui::PopItemWidth();
+        }
+
+        ImGui::End();
       }
-
-      ImGui::End();
-    }
-
+  */
     ImGui::End();
   }
 }
@@ -197,6 +201,11 @@ void OpenGLWindow::terminateGL() {
 void OpenGLWindow::update() {
   m_lightDir = glm::vec4(glm::normalize(m_camera.m_at - m_camera.m_eye), 0);
   const float deltaTime{static_cast<float>(getDeltaTime())};
-  m_pacman.update(deltaTime);
-  m_camera.update(deltaTime, m_pacman.m_posicao_atual);
+
+  auto direcaoCamera = m_camera.getDirection();
+  auto direcaoCameraXZ = glm::vec3(direcaoCamera.x, 0, direcaoCamera.z);
+
+  m_pacman.update(deltaTime, direcaoCameraXZ);
+  m_camera.update(deltaTime, m_pacman.m_posicao_atual,
+                  m_pacman.m_sentidoRotacao);
 }
