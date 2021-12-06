@@ -45,6 +45,19 @@ class OpenGLWindow : public abcg::OpenGLWindow {
   glm::vec4 m_Is{1.0f, 1.0f, 1.0f, 1.0f};
 
   void update();
+
+  void handleEventUpPressed(SDL_Event& ev);
+  void handleEventDownPressed(SDL_Event& ev);
+  void handleEventLeftPressed(SDL_Event& ev);
+  void handleEventRightPressed(SDL_Event& ev);
+  void handleEventQPressed(SDL_Event& ev);
+  void handleEventEPressed(SDL_Event& ev);
+  void handleEventUpReleased(SDL_Event& ev);
+  void handleEventDownReleased(SDL_Event& ev);
+  void handleEventLeftReleased(SDL_Event& ev);
+  void handleEventRightReleased(SDL_Event& ev);
+  void handleEventQReleased(SDL_Event& ev);
+  void handleEventEReleased(SDL_Event& ev);
 };
 
 #endif

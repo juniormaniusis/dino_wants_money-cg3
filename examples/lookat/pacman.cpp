@@ -53,15 +53,8 @@ void Pacman::update(float deltaTime, glm::vec3 direction) {
       glm::rotate(m_modelMatrix, glm::radians(-90.0f), glm::vec3(1, 0, 0));
   m_modelMatrix =
       glm::rotate(m_modelMatrix, glm::radians(-90.0f), glm::vec3(0, 0, 1));
-  // m_angulo += m_sentidoRotacao * 300 * deltaTime;
-  // m_modelMatrix = glm::rotate(m_modelMatrix, glm::radians(m_angulo),
-  //                             glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
-void Pacman::terminateGL() {
-  // abcg::glDeleteBuffers(1, &m_VBO);
-  // abcg::glDeleteBuffers(1, &m_EBO);
-  // abcg::glDeleteVertexArrays(1, &m_VAO);
-}
+void Pacman::terminateGL() {}
 
 Pacman::~Pacman() {}

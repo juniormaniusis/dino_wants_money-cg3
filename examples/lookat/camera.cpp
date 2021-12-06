@@ -79,8 +79,8 @@ void Camera::rotacaoFixa(float velocidade, glm::vec3 posicao) {
 
 void Camera::update(float deltaTime, glm::vec3 posicao, float rotacao) {
   if (m_cameraMode == CameraMode::Fixa) {
-    rotacaoFixa(rotacao * deltaTime, posicao);
-    // olharPara(posicao);
+    // rotacaoFixa(rotacao * deltaTime, posicao);
+    olharPara(posicao);
   } else if (m_cameraMode == CameraMode::Livre) {
     dolly(m_dollySpeed * deltaTime);
     truck(m_truckSpeed * deltaTime);

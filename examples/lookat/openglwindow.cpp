@@ -12,66 +12,110 @@
 
 #include "gamedata.hpp"
 
+void OpenGLWindow::handleEventUpPressed(SDL_Event& ev) {
+  m_camera.m_dollySpeed = 1.0f;
+
+  m_pacman.m_velocidade = 1;
+}
+void OpenGLWindow::handleEventDownPressed(SDL_Event& ev) {
+  m_camera.m_dollySpeed = -1.0f;
+
+  // segue o movimento na direção contrária que está.
+  m_pacman.m_velocidade = -1;
+}
+void OpenGLWindow::handleEventLeftPressed(SDL_Event& ev) {
+  m_camera.m_panSpeed = -1.0f;
+  m_pacman.m_sentidoRotacao = -1.0f;
+}
+void OpenGLWindow::handleEventRightPressed(SDL_Event& ev) {
+  m_camera.m_panSpeed = 1.0f;
+  m_pacman.m_sentidoRotacao = 1.0f;
+}
+void OpenGLWindow::handleEventQPressed(SDL_Event& ev) {
+  m_camera.m_truckSpeed = -1.0f;
+}
+void OpenGLWindow::handleEventEPressed(SDL_Event& ev) {
+  m_camera.m_truckSpeed = 1.0f;
+}
+void OpenGLWindow::handleEventUpReleased(SDL_Event& ev) {
+  if (m_camera.m_dollySpeed > 0) {
+    m_camera.m_dollySpeed = 0.0f;
+    m_pacman.m_velocidade = 0.0f;
+  }
+}
+void OpenGLWindow::handleEventDownReleased(SDL_Event& ev) {
+  if (m_camera.m_dollySpeed < 0) {
+    m_camera.m_dollySpeed = 0.0f;
+    m_pacman.m_velocidade = 0.0f;
+  }
+}
+void OpenGLWindow::handleEventLeftReleased(SDL_Event& ev) {
+  if (m_camera.m_panSpeed < 0) {
+    m_camera.m_panSpeed = 0.0f;
+    m_pacman.m_sentidoRotacao = 0.0f;
+  }
+}
+void OpenGLWindow::handleEventRightReleased(SDL_Event& ev) {
+  if (m_camera.m_panSpeed > 0) {
+    m_camera.m_panSpeed = 0.0f;
+    m_pacman.m_sentidoRotacao = 0.0f;
+  }
+}
+void OpenGLWindow::handleEventQReleased(SDL_Event& ev) {
+  if (m_camera.m_truckSpeed < 0) {
+    m_camera.m_truckSpeed = 0.0f;
+  }
+}
+void OpenGLWindow::handleEventEReleased(SDL_Event& ev) {
+  if (m_camera.m_truckSpeed > 0) {
+    m_camera.m_truckSpeed = 0.0f;
+  }
+}
+
 void OpenGLWindow::handleEvent(SDL_Event& ev) {
   if (ev.type == SDL_KEYDOWN) {
     if (ev.key.keysym.sym == SDLK_UP || ev.key.keysym.sym == SDLK_w) {
-      m_camera.m_dollySpeed = 1.0f;
-
-      // segue o movimento na direção que está.
-      m_pacman.m_velocidade = 1;
+      handleEventUpPressed(ev);
     }
     if (ev.key.keysym.sym == SDLK_DOWN || ev.key.keysym.sym == SDLK_s) {
-      m_camera.m_dollySpeed = -1.0f;
-
-      // segue o movimento na direção contrária que está.
-      m_pacman.m_velocidade = -1;
+      handleEventDownPressed(ev);
     }
 
     if (ev.key.keysym.sym == SDLK_LEFT || ev.key.keysym.sym == SDLK_a) {
-      m_camera.m_panSpeed = -1.0f;
-      m_pacman.m_sentidoRotacao = -1.0f;
+      handleEventLeftPressed(ev);
     }
 
     if (ev.key.keysym.sym == SDLK_RIGHT || ev.key.keysym.sym == SDLK_d) {
-      m_camera.m_panSpeed = 1.0f;
-      m_pacman.m_sentidoRotacao = 1.0f;
+      handleEventRightPressed(ev);
     }
 
     if (ev.key.keysym.sym == SDLK_q) {
-      m_camera.m_truckSpeed = -1.0f;
+      handleEventQPressed(ev);
     }
     if (ev.key.keysym.sym == SDLK_e) {
-      m_camera.m_truckSpeed = 1.0f;
+      handleEventEPressed(ev);
     }
   }
   if (ev.type == SDL_KEYUP) {
-    if ((ev.key.keysym.sym == SDLK_UP || ev.key.keysym.sym == SDLK_w) &&
-        m_camera.m_dollySpeed > 0) {
-      m_camera.m_dollySpeed = 0.0f;
-      m_pacman.m_velocidade = 0.0f;
+    if (ev.key.keysym.sym == SDLK_UP || ev.key.keysym.sym == SDLK_w) {
+      handleEventUpReleased(ev);
     }
 
-    if ((ev.key.keysym.sym == SDLK_DOWN || ev.key.keysym.sym == SDLK_s) &&
-        m_camera.m_dollySpeed < 0) {
-      m_camera.m_dollySpeed = 0.0f;
-      m_pacman.m_velocidade = 0.0f;
+    if (ev.key.keysym.sym == SDLK_DOWN || ev.key.keysym.sym == SDLK_s) {
+      handleEventDownReleased(ev);
     }
 
-    if ((ev.key.keysym.sym == SDLK_LEFT || ev.key.keysym.sym == SDLK_a) &&
-        m_camera.m_panSpeed < 0) {
-      m_camera.m_panSpeed = 0.0f;
-      m_pacman.m_sentidoRotacao = 0.0f;
+    if (ev.key.keysym.sym == SDLK_LEFT || ev.key.keysym.sym == SDLK_a) {
+      handleEventLeftReleased(ev);
     }
-    if ((ev.key.keysym.sym == SDLK_RIGHT || ev.key.keysym.sym == SDLK_d) &&
-        m_camera.m_panSpeed > 0) {
-      m_camera.m_panSpeed = 0.0f;
-      m_pacman.m_sentidoRotacao = 0.0f;
+    if (ev.key.keysym.sym == SDLK_RIGHT || ev.key.keysym.sym == SDLK_d) {
+      handleEventRightReleased(ev);
     }
-    if (ev.key.keysym.sym == SDLK_q && m_camera.m_truckSpeed < 0) {
-      m_camera.m_truckSpeed = 0.0f;
+    if (ev.key.keysym.sym == SDLK_q) {
+      handleEventQReleased(ev);
     }
-    if (ev.key.keysym.sym == SDLK_e && m_camera.m_truckSpeed > 0) {
-      m_camera.m_truckSpeed = 0.0f;
+    if (ev.key.keysym.sym == SDLK_e) {
+      handleEventEReleased(ev);
     }
   }
 }
