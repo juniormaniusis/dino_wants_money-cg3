@@ -1,2 +1,1 @@
 add_subdirectory(lookat)
-add_subdirectory(trenosp)

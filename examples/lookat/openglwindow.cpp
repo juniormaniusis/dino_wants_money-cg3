@@ -186,25 +186,7 @@ void OpenGLWindow::paintGL() {
   glUseProgram(0);
 }
 
-void OpenGLWindow::paintUI() {
-  abcg::OpenGLWindow::paintUI();
-
-  const auto widgetSize{ImVec2(222, 90)};
-  ImGui::SetNextWindowPos(ImVec2(m_viewportWidth - widgetSize.x - 5, 5));
-  ImGui::SetNextWindowSize(widgetSize);
-  ImGui::Begin("Widget window", nullptr, ImGuiWindowFlags_NoDecoration);
-
-  static bool cameraFixa{true};
-  ImGui::Checkbox("Camera Fixa", &cameraFixa);
-
-  if (cameraFixa) {
-    m_camera.m_cameraMode = CameraMode::Fixa;
-  } else {
-    m_camera.m_cameraMode = CameraMode::Livre;
-  }
-
-  ImGui::End();
-}
+void OpenGLWindow::paintUI() { abcg::OpenGLWindow::paintUI(); }
 
 void OpenGLWindow::resizeGL(int width, int height) {
   m_viewportWidth = width;

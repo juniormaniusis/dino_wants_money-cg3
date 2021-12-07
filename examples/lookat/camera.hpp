@@ -14,9 +14,6 @@ class Camera {
   void olharPara(glm::vec3 ponto);
   void computeProjectionMatrix(int width, int height);
   glm::vec3 getDirection();
-  void dolly(float speed);
-  void truck(float speed);
-  void pan(float speed);
   void initialize(glm::vec3 posicao);
 
   float distanceFromPlayer = 50;
