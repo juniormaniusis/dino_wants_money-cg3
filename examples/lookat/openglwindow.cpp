@@ -24,13 +24,11 @@ void OpenGLWindow::handleEventDownPressed(SDL_Event& ev) {
 void OpenGLWindow::handleEventLeftPressed(SDL_Event& ev) {
   m_camera.m_panSpeed = -1.0f;
   m_pacman.m_velocidadeRotacao = Pacman::VELOCIDADE_ROTACAO;
-  printf("apertou %f\n", m_pacman.m_velocidadeRotacao);
 }
 
 void OpenGLWindow::handleEventRightPressed(SDL_Event& ev) {
   m_camera.m_panSpeed = 1.0f;
   m_pacman.m_velocidadeRotacao = -Pacman::VELOCIDADE_ROTACAO;
-  printf("apertou %f\n", m_pacman.m_velocidadeRotacao);
 }
 
 void OpenGLWindow::handleEventQPressed(SDL_Event& ev) {
