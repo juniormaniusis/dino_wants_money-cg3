@@ -133,9 +133,8 @@ void OpenGLWindow::initializeGL() {
   m_program = createProgramFromFile(getAssetsPath() + "shaders/texture.vert",
                                     getAssetsPath() + "shaders/texture.frag");
 
-  m_parede1.initializeGL(m_program, getAssetsPath(), glm::vec3(0),
-                         glm::vec3(3, 0, 0));
   m_chao.initializeGL(m_program, getAssetsPath(), 4);
+
   m_pacman.initializeGL(getAssetsPath(),
                         m_program);  // todo: inverter esses parametros
 
@@ -181,7 +180,7 @@ void OpenGLWindow::paintGL() {
   glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, &m_camera.m_viewMatrix[0][0]);
   glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, &m_camera.m_projMatrix[0][0]);
 
-  m_parede1.paintGL(m_program, m_camera.m_viewMatrix);
+  // m_parede1.paintGL(m_program, m_camera.m_viewMatrix);
   m_chao.paintGL(m_program, m_camera.m_viewMatrix);
   m_pacman.paintGL(m_program, m_camera.m_viewMatrix);
   glUseProgram(0);

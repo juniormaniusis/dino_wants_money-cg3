@@ -17,8 +17,6 @@ class Camera {
   void dolly(float speed);
   void truck(float speed);
   void pan(float speed);
-  void rotacaoFixa(float velocidade, glm::vec3 posicao);
-  void imprime(glm::mat4 mat);
   void initialize(glm::vec3 posicao);
 
   float distanceFromPlayer = 50;
@@ -29,7 +27,7 @@ class Camera {
   friend Pacman;
   glm::vec3 m_eye{glm::vec3(0.0f, 0.5f, 2.5f)};  // Camera position
 
-  glm::vec3 m_distance{glm::vec3(-2.0f, -1.2f, 0)};  // distancia do objeto
+  glm::vec3 m_distance{glm::vec3(2, -2, 2)};  // distancia do objeto
 
   glm::vec3 m_at{glm::vec3(0.0f, 0.5f, 0.0f)};  // Look-at point
   glm::vec3 m_up{glm::vec3(0.0f, 1.0f, 0.0f)};  // "up" direction

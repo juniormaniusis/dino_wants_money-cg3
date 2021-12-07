@@ -11,8 +11,8 @@
 #include <unordered_map>
 
 void Pacman::initializeGL(std::string assetsPath, GLuint program) {
-  m_model.loadDiffuseTexture(assetsPath + "maps/dog.jpg");
-  m_model.loadFromFile(assetsPath + "dog.obj");
+  m_model.loadDiffuseTexture(assetsPath + "maps/dino.jpg");
+  m_model.loadFromFile(assetsPath + "dino obj.obj");
   m_model.setupVAO(program);
 
   computeModelMatrix();
@@ -37,7 +37,7 @@ void Pacman::paintGL(GLuint program, glm::mat4 cameraViewMatrix) {
   glUniform4fv(KdLoc, 1, &m_model.m_Kd.x);
   glUniform4fv(KsLoc, 1, &m_model.m_Ks.x);
 
-  glUniform1i(mappingModeLoc, 1);
+  glUniform1i(mappingModeLoc, 3);
   m_model.render();
 }
 
