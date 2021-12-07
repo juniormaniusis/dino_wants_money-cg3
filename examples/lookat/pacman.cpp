@@ -15,10 +15,7 @@ void Pacman::initializeGL(std::string assetsPath, GLuint program) {
   m_model.loadFromFile(assetsPath + "dog.obj");
   m_model.setupVAO(program);
 
-  auto model = glm::mat4{1};
-  m_posicao_atual = m_posicao_inicial;
-  m_modelMatrix = glm::translate(model, m_posicao_inicial);
-  m_modelMatrix = glm::rotate(model, glm::radians(90.0f), glm::vec3(1, 0, 0));
+  computeModelMatrix();
 }
 
 void Pacman::paintGL(GLuint program, glm::mat4 cameraViewMatrix) {
@@ -44,15 +41,32 @@ void Pacman::paintGL(GLuint program, glm::mat4 cameraViewMatrix) {
   m_model.render();
 }
 
-void Pacman::update(float deltaTime, glm::vec3 direction) {
+void Pacman::update(float deltaTime) {
+  float rotacao = m_velocidadeRotacao * deltaTime;
+  float distancia = m_velocidadeDeslocamento * deltaTime;
+
+  float dx = distancia * glm::sin(glm::radians(m_rotacao.y));
+
+  float dz = distancia * glm::cos(glm::radians(m_rotacao.y));
+
+  m_rotacao.y += rotacao;
+  m_posicao += glm::vec3(dx, 0, dz);
+
+  computeModelMatrix();
+}
+
+void Pacman::computeModelMatrix() {
   auto model = glm::mat4{1};
-  m_posicao_atual = m_posicao_atual + direction * m_velocidade * deltaTime;
-  m_modelMatrix = glm::translate(model, m_posicao_atual);
-  m_modelMatrix = glm::scale(m_modelMatrix, m_escala_inicial);
+
+  m_modelMatrix = glm::translate(model, m_posicao);
+
   m_modelMatrix =
-      glm::rotate(m_modelMatrix, glm::radians(-90.0f), glm::vec3(1, 0, 0));
+      glm::rotate(m_modelMatrix, glm::radians(m_rotacao.x), glm::vec3(1, 0, 0));
   m_modelMatrix =
-      glm::rotate(m_modelMatrix, glm::radians(-90.0f), glm::vec3(0, 0, 1));
+      glm::rotate(m_modelMatrix, glm::radians(m_rotacao.y), glm::vec3(0, 1, 0));
+  m_modelMatrix =
+      glm::rotate(m_modelMatrix, glm::radians(m_rotacao.z), glm::vec3(0, 0, 1));
+  m_modelMatrix = glm::scale(m_modelMatrix, glm::vec3(m_escala));
 }
 
 void Pacman::terminateGL() {}

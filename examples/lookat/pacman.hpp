@@ -11,10 +11,13 @@ class OpenGLWindow;
 class Pacman {
  public:
   ~Pacman();
+  static constexpr float VELOCIDADE_DESCOLAMENTO = 1.0f;
+  static constexpr float VELOCIDADE_ROTACAO = 45.0f;
   void initializeGL(std::string assetsPath, GLuint program);
   void paintGL(GLuint program, glm::mat4 cameraViewMatrix);
   void terminateGL();
-  void update(float deltaTime, glm::vec3 direction);
+  void update(float deltaTime);
+  void computeModelMatrix();
 
  private:
   friend OpenGLWindow;
@@ -22,19 +25,12 @@ class Pacman {
   Model m_model;
   glm::mat4 m_modelMatrix{1.0f};
 
-  glm::vec3 m_posicao_inicial{-0.9f, 0.0f, 4.0f};  //{glm::vec3(0, 1, 0)};
-  glm::vec3 m_escala_inicial{glm::vec3(.025f)};
-
   // posicionamento no espaço
-  glm::vec3 m_posicao_atual{glm::vec3(0, 0, 0)};
-
-  float m_tamanho{1.0f};
-  float m_velocidade{0.0f};
-
-  // m_sentidoRotacao < 0 => sentido anti horario
-  // m_sentidoRotacao > 0 => sentido horario
-  float m_sentidoRotacao{0};
-  float m_angulo{180};  // usar wrapangle depois
+  glm::vec3 m_posicao{-0.9f, 0.0f, 4.0f};
+  glm::vec3 m_rotacao{-90.0f, 0, -90.0f};
+  float m_escala{0.025f};
+  float m_velocidadeDeslocamento{0};
+  float m_velocidadeRotacao{0};
 };
 
 #endif

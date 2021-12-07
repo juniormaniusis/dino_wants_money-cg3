@@ -14,51 +14,54 @@
 
 void OpenGLWindow::handleEventUpPressed(SDL_Event& ev) {
   m_camera.m_dollySpeed = 1.0f;
-
-  m_pacman.m_velocidade = 1;
+  m_pacman.m_velocidadeDeslocamento = Pacman::VELOCIDADE_DESCOLAMENTO;
 }
 void OpenGLWindow::handleEventDownPressed(SDL_Event& ev) {
   m_camera.m_dollySpeed = -1.0f;
-
-  // segue o movimento na direção contrária que está.
-  m_pacman.m_velocidade = -1;
+  m_pacman.m_velocidadeDeslocamento = -Pacman::VELOCIDADE_DESCOLAMENTO;
 }
+
 void OpenGLWindow::handleEventLeftPressed(SDL_Event& ev) {
   m_camera.m_panSpeed = -1.0f;
-  m_pacman.m_sentidoRotacao = -1.0f;
+  m_pacman.m_velocidadeRotacao = Pacman::VELOCIDADE_ROTACAO;
+  printf("apertou %f\n", m_pacman.m_velocidadeRotacao);
 }
+
 void OpenGLWindow::handleEventRightPressed(SDL_Event& ev) {
   m_camera.m_panSpeed = 1.0f;
-  m_pacman.m_sentidoRotacao = 1.0f;
+  m_pacman.m_velocidadeRotacao = -Pacman::VELOCIDADE_ROTACAO;
+  printf("apertou %f\n", m_pacman.m_velocidadeRotacao);
 }
+
 void OpenGLWindow::handleEventQPressed(SDL_Event& ev) {
   m_camera.m_truckSpeed = -1.0f;
 }
 void OpenGLWindow::handleEventEPressed(SDL_Event& ev) {
   m_camera.m_truckSpeed = 1.0f;
 }
+
 void OpenGLWindow::handleEventUpReleased(SDL_Event& ev) {
   if (m_camera.m_dollySpeed > 0) {
     m_camera.m_dollySpeed = 0.0f;
-    m_pacman.m_velocidade = 0.0f;
   }
+  m_pacman.m_velocidadeDeslocamento = 0.0f;
 }
 void OpenGLWindow::handleEventDownReleased(SDL_Event& ev) {
   if (m_camera.m_dollySpeed < 0) {
     m_camera.m_dollySpeed = 0.0f;
-    m_pacman.m_velocidade = 0.0f;
   }
+  m_pacman.m_velocidadeDeslocamento = 0.0f;
 }
 void OpenGLWindow::handleEventLeftReleased(SDL_Event& ev) {
   if (m_camera.m_panSpeed < 0) {
     m_camera.m_panSpeed = 0.0f;
-    m_pacman.m_sentidoRotacao = 0.0f;
+    m_pacman.m_velocidadeRotacao = 0.0f;
   }
 }
 void OpenGLWindow::handleEventRightReleased(SDL_Event& ev) {
   if (m_camera.m_panSpeed > 0) {
     m_camera.m_panSpeed = 0.0f;
-    m_pacman.m_sentidoRotacao = 0.0f;
+    m_pacman.m_velocidadeRotacao = 0.0f;
   }
 }
 void OpenGLWindow::handleEventQReleased(SDL_Event& ev) {
@@ -136,7 +139,7 @@ void OpenGLWindow::initializeGL() {
   m_pacman.initializeGL(getAssetsPath(),
                         m_program);  // todo: inverter esses parametros
 
-  m_camera.initialize(m_pacman.m_posicao_inicial);
+  m_camera.initialize(m_pacman.m_posicao);
 
   m_modelFloor.loadDiffuseTexture(getAssetsPath() + "maps/floor.jpg");
   m_modelFloor.loadFromFile(getAssetsPath() + "track_floor.obj");
@@ -150,6 +153,7 @@ void OpenGLWindow::paintGL() {
   update();
 
   // Clear color buffer and depth buffer
+  abcg::glEnable(GL_DEPTH_TEST);
   abcg::glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   abcg::glViewport(0, 0, m_viewportWidth, m_viewportHeight);
@@ -186,44 +190,21 @@ void OpenGLWindow::paintGL() {
 void OpenGLWindow::paintUI() {
   abcg::OpenGLWindow::paintUI();
 
-  // Create a window for the other widgets
-  {
-    const auto widgetSize{ImVec2(222, 90)};
-    ImGui::SetNextWindowPos(ImVec2(m_viewportWidth - widgetSize.x - 5, 5));
-    ImGui::SetNextWindowSize(widgetSize);
-    ImGui::Begin("Widget window", nullptr, ImGuiWindowFlags_NoDecoration);
+  const auto widgetSize{ImVec2(222, 90)};
+  ImGui::SetNextWindowPos(ImVec2(m_viewportWidth - widgetSize.x - 5, 5));
+  ImGui::SetNextWindowSize(widgetSize);
+  ImGui::Begin("Widget window", nullptr, ImGuiWindowFlags_NoDecoration);
 
-    static bool cameraFixa{true};
-    ImGui::Checkbox("Camera Fixa", &cameraFixa);
+  static bool cameraFixa{true};
+  ImGui::Checkbox("Camera Fixa", &cameraFixa);
 
-    if (cameraFixa) {
-      m_camera.m_cameraMode = CameraMode::Fixa;
-    } else {
-      m_camera.m_cameraMode = CameraMode::Livre;
-    }
-
-    /*
-      {
-        ImGui::SetNextWindowPos(ImVec2(5, m_viewportHeight - 94));
-        ImGui::SetNextWindowSize(ImVec2(m_viewportWidth - 10, -1));
-        ImGui::Begin("Slider window", nullptr, ImGuiWindowFlags_NoDecoration);
-
-        // Create a slider to control the number of rendered triangles
-        {
-          // Slider will fill the space of the window
-          ImGui::PushItemWidth(m_viewportWidth - 25);
-
-          ImGui::SliderFloat3("", &m_camera.m_distance.x, -5.0f, 5.0f,
-                              "%f u.m distância");
-
-          ImGui::PopItemWidth();
-        }
-
-        ImGui::End();
-      }
-  */
-    ImGui::End();
+  if (cameraFixa) {
+    m_camera.m_cameraMode = CameraMode::Fixa;
+  } else {
+    m_camera.m_cameraMode = CameraMode::Livre;
   }
+
+  ImGui::End();
 }
 
 void OpenGLWindow::resizeGL(int width, int height) {
@@ -246,10 +227,6 @@ void OpenGLWindow::update() {
   m_lightDir = glm::vec4(glm::normalize(m_camera.m_at - m_camera.m_eye), 0);
   const float deltaTime{static_cast<float>(getDeltaTime())};
 
-  auto direcaoCamera = m_camera.getDirection();
-  auto direcaoCameraXZ = glm::vec3(direcaoCamera.x, 0, direcaoCamera.z);
-
-  m_pacman.update(deltaTime, direcaoCameraXZ);
-  m_camera.update(deltaTime, m_pacman.m_posicao_atual,
-                  m_pacman.m_sentidoRotacao);
+  m_pacman.update(deltaTime);
+  m_camera.update(deltaTime, m_pacman.m_posicao, m_pacman.m_velocidadeRotacao);
 }

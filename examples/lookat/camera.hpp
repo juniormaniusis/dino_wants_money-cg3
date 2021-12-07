@@ -23,7 +23,6 @@ class Camera {
 
   float distanceFromPlayer = 50;
   float angleAroundPlayer = 0;
-  ;
 
  private:
   friend OpenGLWindow;
