@@ -40,6 +40,22 @@ void Pacman::paintGL(GLuint program, glm::mat4 cameraViewMatrix) {
   glUniform1i(mappingModeLoc, 3);
   m_model.render();
 }
+void Pacman::computeGravity(float deltaTime) {
+  m_velocidadePulo = m_velocidadePulo + Pacman::GRAVIDADE * deltaTime;
+  m_posicao.y = m_posicao.y + m_velocidadePulo * deltaTime;
+
+  if (m_posicao.y < Pacman::NIVEL_CHAO) {
+    m_velocidadePulo = 0;
+    m_posicao.y = Pacman::NIVEL_CHAO;
+  }
+}
+
+void Pacman::pular() {
+  // permite que pule somente se estiver no chão.
+  if (m_posicao.y == Pacman::NIVEL_CHAO) {
+    m_velocidadePulo = Pacman::JUMP_POWER;
+  }
+}
 
 void Pacman::update(float deltaTime) {
   float rotacao = m_velocidadeRotacao * deltaTime;
@@ -51,6 +67,8 @@ void Pacman::update(float deltaTime) {
 
   m_rotacao.y += rotacao;
   m_posicao += glm::vec3(dx, 0, dz);
+
+  computeGravity(deltaTime);
 
   computeModelMatrix();
 }

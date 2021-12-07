@@ -12,62 +12,61 @@
 
 #include "gamedata.hpp"
 
-void OpenGLWindow::handleEventUpPressed(SDL_Event& ev) {
+void OpenGLWindow::handleEventUpPressed() {
   m_camera.m_dollySpeed = 1.0f;
   m_pacman.m_velocidadeDeslocamento = Pacman::VELOCIDADE_DESCOLAMENTO;
 }
-void OpenGLWindow::handleEventDownPressed(SDL_Event& ev) {
+void OpenGLWindow::handleEventDownPressed() {
   m_camera.m_dollySpeed = -1.0f;
   m_pacman.m_velocidadeDeslocamento = -Pacman::VELOCIDADE_DESCOLAMENTO;
 }
 
-void OpenGLWindow::handleEventLeftPressed(SDL_Event& ev) {
+void OpenGLWindow::handleEventLeftPressed() {
   m_camera.m_panSpeed = -1.0f;
   m_pacman.m_velocidadeRotacao = Pacman::VELOCIDADE_ROTACAO;
 }
 
-void OpenGLWindow::handleEventRightPressed(SDL_Event& ev) {
+void OpenGLWindow::handleEventRightPressed() {
   m_camera.m_panSpeed = 1.0f;
   m_pacman.m_velocidadeRotacao = -Pacman::VELOCIDADE_ROTACAO;
 }
 
-void OpenGLWindow::handleEventQPressed(SDL_Event& ev) {
-  m_camera.m_truckSpeed = -1.0f;
-}
-void OpenGLWindow::handleEventEPressed(SDL_Event& ev) {
-  m_camera.m_truckSpeed = 1.0f;
+void OpenGLWindow::handleEventQPressed() { m_camera.m_truckSpeed = -1.0f; }
+void OpenGLWindow::handleEventEPressed() { m_camera.m_truckSpeed = 1.0f; }
+void OpenGLWindow::handleEventSpaceBarPressed() {
+  m_pacman.pular();
 }
 
-void OpenGLWindow::handleEventUpReleased(SDL_Event& ev) {
+void OpenGLWindow::handleEventUpReleased() {
   if (m_camera.m_dollySpeed > 0) {
     m_camera.m_dollySpeed = 0.0f;
   }
   m_pacman.m_velocidadeDeslocamento = 0.0f;
 }
-void OpenGLWindow::handleEventDownReleased(SDL_Event& ev) {
+void OpenGLWindow::handleEventDownReleased() {
   if (m_camera.m_dollySpeed < 0) {
     m_camera.m_dollySpeed = 0.0f;
   }
   m_pacman.m_velocidadeDeslocamento = 0.0f;
 }
-void OpenGLWindow::handleEventLeftReleased(SDL_Event& ev) {
+void OpenGLWindow::handleEventLeftReleased() {
   if (m_camera.m_panSpeed < 0) {
     m_camera.m_panSpeed = 0.0f;
     m_pacman.m_velocidadeRotacao = 0.0f;
   }
 }
-void OpenGLWindow::handleEventRightReleased(SDL_Event& ev) {
+void OpenGLWindow::handleEventRightReleased() {
   if (m_camera.m_panSpeed > 0) {
     m_camera.m_panSpeed = 0.0f;
     m_pacman.m_velocidadeRotacao = 0.0f;
   }
 }
-void OpenGLWindow::handleEventQReleased(SDL_Event& ev) {
+void OpenGLWindow::handleEventQReleased() {
   if (m_camera.m_truckSpeed < 0) {
     m_camera.m_truckSpeed = 0.0f;
   }
 }
-void OpenGLWindow::handleEventEReleased(SDL_Event& ev) {
+void OpenGLWindow::handleEventEReleased() {
   if (m_camera.m_truckSpeed > 0) {
     m_camera.m_truckSpeed = 0.0f;
   }
@@ -76,47 +75,50 @@ void OpenGLWindow::handleEventEReleased(SDL_Event& ev) {
 void OpenGLWindow::handleEvent(SDL_Event& ev) {
   if (ev.type == SDL_KEYDOWN) {
     if (ev.key.keysym.sym == SDLK_UP || ev.key.keysym.sym == SDLK_w) {
-      handleEventUpPressed(ev);
+      handleEventUpPressed();
     }
     if (ev.key.keysym.sym == SDLK_DOWN || ev.key.keysym.sym == SDLK_s) {
-      handleEventDownPressed(ev);
+      handleEventDownPressed();
     }
 
     if (ev.key.keysym.sym == SDLK_LEFT || ev.key.keysym.sym == SDLK_a) {
-      handleEventLeftPressed(ev);
+      handleEventLeftPressed();
     }
 
     if (ev.key.keysym.sym == SDLK_RIGHT || ev.key.keysym.sym == SDLK_d) {
-      handleEventRightPressed(ev);
+      handleEventRightPressed();
     }
 
     if (ev.key.keysym.sym == SDLK_q) {
-      handleEventQPressed(ev);
+      handleEventQPressed();
     }
     if (ev.key.keysym.sym == SDLK_e) {
-      handleEventEPressed(ev);
+      handleEventEPressed();
+    }
+    if (ev.key.keysym.sym == SDLK_SPACE) {
+      handleEventSpaceBarPressed();
     }
   }
   if (ev.type == SDL_KEYUP) {
-    if (ev.key.keysym.sym == SDLK_UP || ev.key.keysym.sym == SDLK_w) {
-      handleEventUpReleased(ev);
+        if (ev.key.keysym.sym == SDLK_UP || ev.key.keysym.sym == SDLK_w) {
+      handleEventUpReleased();
     }
 
     if (ev.key.keysym.sym == SDLK_DOWN || ev.key.keysym.sym == SDLK_s) {
-      handleEventDownReleased(ev);
+      handleEventDownReleased();
     }
 
     if (ev.key.keysym.sym == SDLK_LEFT || ev.key.keysym.sym == SDLK_a) {
-      handleEventLeftReleased(ev);
+      handleEventLeftReleased();
     }
     if (ev.key.keysym.sym == SDLK_RIGHT || ev.key.keysym.sym == SDLK_d) {
-      handleEventRightReleased(ev);
+      handleEventRightReleased();
     }
     if (ev.key.keysym.sym == SDLK_q) {
-      handleEventQReleased(ev);
+      handleEventQReleased();
     }
     if (ev.key.keysym.sym == SDLK_e) {
-      handleEventEReleased(ev);
+      handleEventEReleased();
     }
   }
 }
