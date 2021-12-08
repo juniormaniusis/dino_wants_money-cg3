@@ -12,7 +12,7 @@ class Chao {
  public:
   ~Chao();
 
-  void initializeGL(GLuint program, std::string assetsPath, int comprimento);
+  void initializeGL(GLuint program, std::string assetsPath);
   void paintGL(GLuint program, glm::mat4 cameraViewMatrix);
   void terminateGL();
   void update(float deltaTime);

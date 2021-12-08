@@ -52,12 +52,8 @@ void OpenGLWindow::handleEvent(SDL_Event& ev) {
   if (ev.type == SDL_MOUSEMOTION &&
       ev.button.button == SDL_BUTTON(SDL_BUTTON_RIGHT)) {
     float deltaX = ev.motion.xrel * deltaTime;
-    m_camera.calculateAngleAroundPlayer(deltaX);
-  }
-
-  if (ev.type == SDL_MOUSEMOTION &&
-      ev.button.button == SDL_BUTTON(SDL_BUTTON_MIDDLE)) {
     float deltaY = ev.motion.yrel * deltaTime;
+    m_camera.calculateAngleAroundPlayer(deltaX);
     m_camera.calculatePitch(deltaY);
   }
 
@@ -100,7 +96,8 @@ void OpenGLWindow::handleEvent(SDL_Event& ev) {
 }
 
 void OpenGLWindow::initializeGL() {
-  abcg::glClearColor(0.52f, 0.80f, 0.92f, 1);
+  abcg::glClearColor(.5f, .5f, .5f, 1);
+  // abcg::glClearColor(0.52f, 0.80f, 0.92f, 1);
 
   // Enable depth buffering
   abcg::glEnable(GL_DEPTH_TEST);
@@ -109,7 +106,7 @@ void OpenGLWindow::initializeGL() {
   m_program = createProgramFromFile(getAssetsPath() + "shaders/texture.vert",
                                     getAssetsPath() + "shaders/texture.frag");
 
-  m_chao.initializeGL(m_program, getAssetsPath(), 4);
+  m_chao.initializeGL(m_program, getAssetsPath());
 
   m_pacman.initializeGL(getAssetsPath(),
                         m_program);  // todo: inverter esses parametros

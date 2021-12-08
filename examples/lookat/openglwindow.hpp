@@ -9,7 +9,6 @@
 #include "gamedata.hpp"
 #include "model.hpp"
 #include "pacman.hpp"
-#include "parede.hpp"
 
 class OpenGLWindow : public abcg::OpenGLWindow {
  protected:
@@ -34,8 +33,6 @@ class OpenGLWindow : public abcg::OpenGLWindow {
   Chao m_chao;
   Pacman m_pacman;
 
-  Parede m_parede1;
-
   Model m_modelFloor;
 
   // TODO:: REVISAR
@@ -44,8 +41,9 @@ class OpenGLWindow : public abcg::OpenGLWindow {
   glm::vec4 m_Id{1.0f, 1.0f, 1.0f, 1.0f};
   glm::vec4 m_Is{1.0f, 1.0f, 1.0f, 1.0f};
 
-  void update();
+  glm::vec4 FOG_COLOR{0.5, 0.5, 0.5, 1};
 
+  void update();
   void handleEventUpPressed();
   void handleEventDownPressed();
   void handleEventLeftPressed();

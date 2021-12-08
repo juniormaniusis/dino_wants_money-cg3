@@ -10,8 +10,7 @@
 #include <glm/gtx/hash.hpp>
 #include <unordered_map>
 
-void Chao::initializeGL(GLuint program, std::string assetsPath,
-                        int comprimento) {
+void Chao::initializeGL(GLuint program, std::string assetsPath) {
   m_posicaoFinal = glm::vec3(0);
   m_posicaoInicial = glm::vec3(0);
   m_model.loadDiffuseTexture(assetsPath + "maps/chao.jpg");
@@ -44,9 +43,5 @@ void Chao::paintGL(GLuint program, glm::mat4 cameraViewMatrix) {
   glUniform1i(mappingModeLoc, 0);
   m_model.render();
 }
-
-void Chao::update(float deltaTime) {}
-
-void Chao::terminateGL() {}
 
 Chao::~Chao() {}

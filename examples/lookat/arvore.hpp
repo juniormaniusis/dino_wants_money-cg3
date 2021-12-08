@@ -1,5 +1,5 @@
-#ifndef Parede_HPP_
-#define Parede_HPP_
+#ifndef Arvore_HPP_
+#define Arvore_HPP_
 
 #include <vector>
 
@@ -8,12 +8,11 @@
 #include "gamedata.hpp"
 #include "model.hpp"
 class OpenGLWindow;
-class Parede {
+class Arvore {
  public:
-  ~Parede();
+  ~Arvore();
 
-  void initializeGL(GLuint program, std::string assetsPath,
-                    glm::vec3 posInicial, glm::vec3 posFinal);
+  void initializeGL(GLuint program, std::string assetsPath, glm::vec3 posicao);
   void paintGL(GLuint program, glm::mat4 cameraViewMatrix);
   void terminateGL();
   void update(float deltaTime);

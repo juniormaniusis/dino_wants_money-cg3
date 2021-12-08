@@ -30,7 +30,7 @@ void Camera::computeViewMatrix() {
 void Camera::update(glm::vec3 pacmanPosition, glm::vec3 pacmanRotation) {
   updatePosition(pacmanPosition, pacmanRotation);
 
-    computeViewMatrix();
+  computeViewMatrix();
 }
 
 void Camera::updatePosition(glm::vec3 pacmanPosition,
@@ -54,8 +54,6 @@ void Camera::initialize() {}
 
 void Camera::changeDistanceFromPlayer(float mouseWheel) {
   m_distanceFromPlayer += mouseWheel * 0.2f;
-
-  printf("distance: %f\n", m_distanceFromPlayer);
 }
 
 void Camera::calculatePitch(float mouse) {
@@ -66,5 +64,4 @@ void Camera::calculatePitch(float mouse) {
 void Camera::calculateAngleAroundPlayer(float mouse) {
   float delta = mouse * 500.0f;
   m_angleAroundPlayer -= delta;
-  printf("distance: %f\n", m_angleAroundPlayer);
 }
