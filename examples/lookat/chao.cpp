@@ -13,7 +13,7 @@
 void Chao::initializeGL(GLuint program, std::string assetsPath) {
   m_posicaoFinal = glm::vec3(0);
   m_posicaoInicial = glm::vec3(0);
-  m_model.loadDiffuseTexture(assetsPath + "maps/grama.jpeg");
+  m_model.loadDiffuseTexture(assetsPath + "maps/chao.jpg");
   m_model.loadFromFile(assetsPath + "chao.obj");
   m_model.setupVAO(program);
 

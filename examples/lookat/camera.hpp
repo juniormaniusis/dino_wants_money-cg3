@@ -30,8 +30,9 @@ class Camera {
   float m_pitch{10};
   float m_yaw{0};
   float m_roll{0};
-  float m_distanceFromPlayer{10};
-  float m_angleAroundPlayer{0};
+
+  float m_distancia{6};
+  float m_anguloTarget{0};
 
   void update(glm::vec3 targetPosition, glm::vec3 pacmanRotation);
   void updatePosition(glm::vec3 targetPosition, glm::vec3 pacmanRotation);

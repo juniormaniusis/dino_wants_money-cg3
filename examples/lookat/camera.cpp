@@ -35,10 +35,10 @@ void Camera::update(glm::vec3 pacmanPosition, glm::vec3 pacmanRotation) {
 
 void Camera::updatePosition(glm::vec3 pacmanPosition,
                             glm::vec3 pacmanRotation) {
-  float xDistance = m_distanceFromPlayer * glm::cos(glm::radians(m_pitch));
-  float yDistance = m_distanceFromPlayer * glm::sin(glm::radians(m_pitch));
+  float xDistance = m_distancia * glm::cos(glm::radians(m_pitch));
+  float yDistance = m_distancia * glm::sin(glm::radians(m_pitch));
 
-  float theta = pacmanRotation.y + m_angleAroundPlayer;
+  float theta = pacmanRotation.y + m_anguloTarget;
 
   float offsetX = static_cast<float>(xDistance * glm::sin(glm::radians(theta)));
   float offsetZ = static_cast<float>(xDistance * glm::cos(glm::radians(theta)));
@@ -47,19 +47,19 @@ void Camera::updatePosition(glm::vec3 pacmanPosition,
   m_posicao.z = pacmanPosition.z - offsetZ;
   m_posicao.y = pacmanPosition.y + yDistance;
 
-  m_yaw = 180 - (pacmanRotation.y + m_angleAroundPlayer);
+  m_yaw = 180 - (pacmanRotation.y + m_anguloTarget);
 }
 
 void Camera::initialize() {}
 
 void Camera::changeDistanceFromPlayer(float mouseWheel) {
-  m_distanceFromPlayer += mouseWheel * 0.2f;
-  if (m_distanceFromPlayer < 3.0f) {
-    m_distanceFromPlayer = 3.0f;
+  m_distancia += mouseWheel * 0.2f;
+  if (m_distancia < 3.0f) {
+    m_distancia = 3.0f;
     return;
   }
-  if (m_distanceFromPlayer > 15.0f) {
-    m_distanceFromPlayer = 15.0f;
+  if (m_distancia > 15.0f) {
+    m_distancia = 15.0f;
     return;
   }
 }
@@ -79,5 +79,5 @@ void Camera::calculatePitch(float mouse) {
 
 void Camera::calculateAngleAroundPlayer(float mouse) {
   float delta = mouse * 35.0f;
-  m_angleAroundPlayer -= delta;
+  m_anguloTarget -= delta;
 }

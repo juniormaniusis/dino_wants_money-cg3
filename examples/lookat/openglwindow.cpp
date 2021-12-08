@@ -96,8 +96,8 @@ void OpenGLWindow::initializeGL() {
   abcg::glEnable(GL_DEPTH_TEST);
 
   // Create program
-  m_program = createProgramFromFile(getAssetsPath() + "shaders/texture.vert",
-                                    getAssetsPath() + "shaders/texture.frag");
+  m_program = createProgramFromFile(getAssetsPath() + "shaders/texture_neblina.vert",
+                                    getAssetsPath() + "shaders/texture_neblina.frag");
 
   m_chao.initializeGL(m_program, getAssetsPath());
 

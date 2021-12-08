@@ -87,8 +87,8 @@ std::vector<DinheiroUnidade*> Dinheiro::gerarDinheiros() {
     for (int j = 0; j < 40; j++) {
       float randX = rd(m_randomEngine) + ((float)(i + j) * 8);
       float randZ = (rd(m_randomEngine) + i) * (float(j * 2));
-      DinheiroUnidade* dinheiro = criaDinheiroUnidade(
-          (randX > 0 ? randX : -randX) * 100, glm::vec3(randX, 1, randZ));
+      DinheiroUnidade* dinheiro =
+          criaDinheiroUnidade(100, glm::vec3(randX, 1, randZ));
       dinheiros.push_back(dinheiro);
     }
   }
