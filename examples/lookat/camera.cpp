@@ -54,6 +54,14 @@ void Camera::initialize() {}
 
 void Camera::changeDistanceFromPlayer(float mouseWheel) {
   m_distanceFromPlayer += mouseWheel * 0.2f;
+  if (m_distanceFromPlayer < 3.0f) {
+    m_distanceFromPlayer = 3.0f;
+    return;
+  }
+  if (m_distanceFromPlayer > 15.0f) {
+    m_distanceFromPlayer = 15.0f;
+    return;
+  }
 }
 
 void Camera::calculatePitch(float mouse) {
@@ -61,9 +69,11 @@ void Camera::calculatePitch(float mouse) {
   m_pitch += delta;
   if (m_pitch < 10) {
     m_pitch = 10;
+    return;
   }
   if (m_pitch > 95) {
     m_pitch = 95;
+    return;
   }
 }
 
