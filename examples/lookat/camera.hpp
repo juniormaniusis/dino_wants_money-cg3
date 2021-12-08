@@ -6,7 +6,7 @@
 
 #include "gamedata.hpp"
 class OpenGLWindow;
-class Pacman;
+class Dinossauro;
 
 class Camera {
  public:
@@ -20,7 +20,7 @@ class Camera {
 
  private:
   friend OpenGLWindow;
-  friend Pacman;
+  friend Dinossauro;
 
   glm::mat4 m_viewMatrix;
   glm::mat4 m_projMatrix;

@@ -25,7 +25,7 @@ class Dinheiro {
   void terminateGL();
   void computeModelMatrix(int positionIndex);
   std::vector<DinheiroUnidade*> gerarDinheiros();
-  void update(float deltaTime);
+  void update(float deltaTime, glm::vec3 pacmanPosition, float* score);
 
  private:
   friend OpenGLWindow;
@@ -33,6 +33,7 @@ class Dinheiro {
   glm::mat4 m_modelMatrix{0};
   std::default_random_engine m_randomEngine;
   DinheiroUnidade* criaDinheiroUnidade(float valor, glm::vec3 posicao);
+  bool checkColision(glm::vec3 dinheiroPosition, glm::vec3 pacmanPosition);
   std::vector<DinheiroUnidade*> m_dinheiros{};
   glm::vec3 m_rotacao{-90, 0, 0};
   float m_escala{0.005f};

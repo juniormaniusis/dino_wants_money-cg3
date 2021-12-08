@@ -8,9 +8,9 @@
 #include "gamedata.hpp"
 #include "model.hpp"
 class OpenGLWindow;
-class Pacman {
+class Dinossauro {
  public:
-  ~Pacman();
+  ~Dinossauro();
   static constexpr float VELOCIDADE_DESCOLAMENTO{3.5f};
   static constexpr float VELOCIDADE_ROTACAO{100.0f};
   static constexpr float GRAVIDADE{-9.8f};

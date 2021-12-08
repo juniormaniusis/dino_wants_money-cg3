@@ -44,7 +44,6 @@ void Arvore::paintGL(GLuint program, glm::mat4 cameraViewMatrix) {
   GLint KsLoc{glGetUniformLocation(program, "Ks")};
   GLint mappingModeLoc{glGetUniformLocation(program, "mappingMode")};
 
-  // m_posicao = glm::vec3(0);
   for (ulong i = 0; i < m_posicoes.size(); i++) {
     computeModelMatrix(i);
     glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, &m_modelMatrix[0][0]);
@@ -75,28 +74,6 @@ std::vector<glm::vec3> Arvore::gerarPosicoes() {
   }
   return posicoes;
 }
-// void Ground::paintGL() {
-//   // Draw a grid of tiles centered on the xz plane
-//   const int N{5};
-
-//   abcg::glBindVertexArray(m_VAO);
-//   for (const auto z : iter::range(-N, N + 1)) {
-//     for (const auto x : iter::range(-N, N + 1)) {
-//       // Set model matrix
-//       glm::mat4 model{1.0f};
-//       model = glm::translate(model, glm::vec3(x, 0.0f, z));
-//       abcg::glUniformMatrix4fv(m_modelMatrixLoc, 1, GL_FALSE, &model[0][0]);
-
-//       // Set color (checkerboard pattern)
-//       const float blue{(z + x) % 2 == 0 ? 0.12f : 0.21f};
-//       abcg::glUniform4f(m_colorLoc, 0.00f, blue, 0.38f, 1.0f);
-
-//       abcg::glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-//     }
-//   }
-//   abcg::glBindVertexArray(0);
-// }
 
 void Arvore::terminateGL() {}
-
 Arvore::~Arvore() {}

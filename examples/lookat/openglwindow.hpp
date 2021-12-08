@@ -10,7 +10,7 @@
 #include "dinheiro.hpp"
 #include "gamedata.hpp"
 #include "model.hpp"
-#include "pacman.hpp"
+#include "dinossauro.hpp"
 class OpenGLWindow : public abcg::OpenGLWindow {
  protected:
   void handleEvent(SDL_Event& ev) override;
@@ -34,7 +34,7 @@ class OpenGLWindow : public abcg::OpenGLWindow {
   Dinheiro m_dinheiro;
   float m_pontuacao{0};
   Chao m_chao;
-  Pacman m_pacman;
+  Dinossauro m_dinossauro;
 
   Model m_modelFloor;
 

@@ -2,7 +2,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "pacman.hpp"
+#include "dinossauro.hpp"
 
 void Camera::computeProjectionMatrix(int width, int height) {
   float FOV = 70;

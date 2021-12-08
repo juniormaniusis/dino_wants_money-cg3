@@ -13,29 +13,29 @@
 #include "gamedata.hpp"
 
 void OpenGLWindow::handleEventUpPressed() {
-  m_pacman.m_velocidadeDeslocamento = Pacman::VELOCIDADE_DESCOLAMENTO;
+  m_dinossauro.m_velocidadeDeslocamento = Dinossauro::VELOCIDADE_DESCOLAMENTO;
 }
 void OpenGLWindow::handleEventDownPressed() {
-  m_pacman.m_velocidadeDeslocamento = -Pacman::VELOCIDADE_DESCOLAMENTO;
+  m_dinossauro.m_velocidadeDeslocamento = -Dinossauro::VELOCIDADE_DESCOLAMENTO;
 }
 void OpenGLWindow::handleEventLeftPressed() {
-  m_pacman.m_velocidadeRotacao = Pacman::VELOCIDADE_ROTACAO;
+  m_dinossauro.m_velocidadeRotacao = Dinossauro::VELOCIDADE_ROTACAO;
 }
 void OpenGLWindow::handleEventRightPressed() {
-  m_pacman.m_velocidadeRotacao = -Pacman::VELOCIDADE_ROTACAO;
+  m_dinossauro.m_velocidadeRotacao = -Dinossauro::VELOCIDADE_ROTACAO;
 }
-void OpenGLWindow::handleEventSpaceBarPressed() { m_pacman.pular(); }
+void OpenGLWindow::handleEventSpaceBarPressed() { m_dinossauro.pular(); }
 void OpenGLWindow::handleEventUpReleased() {
-  m_pacman.m_velocidadeDeslocamento = 0.0f;
+  m_dinossauro.m_velocidadeDeslocamento = 0.0f;
 }
 void OpenGLWindow::handleEventDownReleased() {
-  m_pacman.m_velocidadeDeslocamento = 0.0f;
+  m_dinossauro.m_velocidadeDeslocamento = 0.0f;
 }
 void OpenGLWindow::handleEventLeftReleased() {
-  m_pacman.m_velocidadeRotacao = 0.0f;
+  m_dinossauro.m_velocidadeRotacao = 0.0f;
 }
 void OpenGLWindow::handleEventRightReleased() {
-  m_pacman.m_velocidadeRotacao = 0.0f;
+  m_dinossauro.m_velocidadeRotacao = 0.0f;
 }
 void OpenGLWindow::handleEvent(SDL_Event& ev) {
   const float deltaTime{static_cast<float>(getDeltaTime())};
@@ -101,7 +101,7 @@ void OpenGLWindow::initializeGL() {
 
   m_chao.initializeGL(m_program, getAssetsPath());
 
-  m_pacman.initializeGL(getAssetsPath(),
+  m_dinossauro.initializeGL(getAssetsPath(),
                         m_program);  // todo: inverter esses parametros
 
   m_camera.initialize();
@@ -152,7 +152,7 @@ void OpenGLWindow::paintGL() {
 
   // m_parede1.paintGL(m_program, m_camera.m_viewMatrix);
   m_chao.paintGL(m_program, m_camera.m_viewMatrix);
-  m_pacman.paintGL(m_program, m_camera.m_viewMatrix);
+  m_dinossauro.paintGL(m_program, m_camera.m_viewMatrix);
 
   m_arvore.paintGL(m_program, m_camera.m_viewMatrix);
   m_dinheiro.paintGL(m_program, m_camera.m_viewMatrix);
@@ -194,7 +194,7 @@ void OpenGLWindow::resizeGL(int width, int height) {
 
 void OpenGLWindow::terminateGL() {
   // m_ground.terminateGL();
-  m_pacman.terminateGL();
+  m_dinossauro.terminateGL();
   abcg::glDeleteProgram(m_program);
   abcg::glDeleteBuffers(1, &m_EBO);
   abcg::glDeleteBuffers(1, &m_VBO);
@@ -204,7 +204,7 @@ void OpenGLWindow::terminateGL() {
 void OpenGLWindow::update() {
   m_lightDir = glm::vec4(glm::normalize(glm::vec3(-1, -1, -1)), 0);
   const float deltaTime{static_cast<float>(getDeltaTime())};
-  m_pacman.update(deltaTime);
-  m_dinheiro.update(deltaTime);
-  m_camera.update(m_pacman.m_posicao, m_pacman.m_rotacao);
+  m_dinossauro.update(deltaTime);
+  m_dinheiro.update(deltaTime, m_dinossauro.m_posicao, &m_pontuacao);
+  m_camera.update(m_dinossauro.m_posicao, m_dinossauro.m_rotacao);
 }

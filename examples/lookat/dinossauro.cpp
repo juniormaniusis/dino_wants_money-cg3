@@ -1,4 +1,4 @@
-#include "pacman.hpp"
+#include "dinossauro.hpp"
 
 #include <fmt/core.h>
 #include <imgui.h>
@@ -10,7 +10,7 @@
 #include <glm/gtx/hash.hpp>
 #include <unordered_map>
 
-void Pacman::initializeGL(std::string assetsPath, GLuint program) {
+void Dinossauro::initializeGL(std::string assetsPath, GLuint program) {
   m_model.loadDiffuseTexture(assetsPath + "maps/dino.jpg");
   m_model.loadFromFile(assetsPath + "dino obj.obj");
   m_model.setupVAO(program);
@@ -18,7 +18,7 @@ void Pacman::initializeGL(std::string assetsPath, GLuint program) {
   computeModelMatrix();
 }
 
-void Pacman::paintGL(GLuint program, glm::mat4 cameraViewMatrix) {
+void Dinossauro::paintGL(GLuint program, glm::mat4 cameraViewMatrix) {
   GLint modelMatrixLoc{glGetUniformLocation(program, "modelMatrix")};
   GLint normalMatrixLoc{glGetUniformLocation(program, "normalMatrix")};
   GLint shininessLoc{glGetUniformLocation(program, "shininess")};
@@ -40,24 +40,24 @@ void Pacman::paintGL(GLuint program, glm::mat4 cameraViewMatrix) {
   glUniform1i(mappingModeLoc, 3);
   m_model.render();
 }
-void Pacman::computeGravity(float deltaTime) {
-  m_velocidadePulo = m_velocidadePulo + Pacman::GRAVIDADE * deltaTime;
+void Dinossauro::computeGravity(float deltaTime) {
+  m_velocidadePulo = m_velocidadePulo + Dinossauro::GRAVIDADE * deltaTime;
   m_posicao.y = m_posicao.y + m_velocidadePulo * deltaTime;
 
-  if (m_posicao.y < Pacman::NIVEL_CHAO) {
+  if (m_posicao.y < Dinossauro::NIVEL_CHAO) {
     m_velocidadePulo = 0;
-    m_posicao.y = Pacman::NIVEL_CHAO;
+    m_posicao.y = Dinossauro::NIVEL_CHAO;
   }
 }
 
-void Pacman::pular() {
+void Dinossauro::pular() {
   // permite que pule somente se estiver no chão.
-  if (m_posicao.y == Pacman::NIVEL_CHAO) {
-    m_velocidadePulo = Pacman::JUMP_POWER;
+  if (m_posicao.y == Dinossauro::NIVEL_CHAO) {
+    m_velocidadePulo = Dinossauro::JUMP_POWER;
   }
 }
 
-void Pacman::update(float deltaTime) {
+void Dinossauro::update(float deltaTime) {
   float rotacao = m_velocidadeRotacao * deltaTime;
   float distancia = m_velocidadeDeslocamento * deltaTime;
 
@@ -73,7 +73,7 @@ void Pacman::update(float deltaTime) {
   computeModelMatrix();
 }
 
-void Pacman::computeModelMatrix() {
+void Dinossauro::computeModelMatrix() {
   auto model = glm::mat4{1};
 
   m_modelMatrix = glm::translate(model, m_posicao);
@@ -87,6 +87,6 @@ void Pacman::computeModelMatrix() {
   m_modelMatrix = glm::scale(m_modelMatrix, glm::vec3(m_escala));
 }
 
-void Pacman::terminateGL() {}
+void Dinossauro::terminateGL() {}
 
-Pacman::~Pacman() {}
+Dinossauro::~Dinossauro() {}
