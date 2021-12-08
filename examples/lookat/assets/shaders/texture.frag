@@ -6,6 +6,7 @@ in vec3 fragV;
 in vec2 fragTexCoord;
 in vec3 fragPObj;
 in vec3 fragNObj;
+in float visibility;
 
 // Light properties
 uniform vec4 Ia, Id, Is;
@@ -13,7 +14,7 @@ uniform vec4 Ia, Id, Is;
 // Material properties
 uniform vec4 Ka, Kd, Ks;
 uniform float shininess;
-
+uniform vec3 skyColor;
 // Diffuse texture sampler
 uniform sampler2D diffuseTex;
 
@@ -127,4 +128,6 @@ void main() {
     float i = (color.r + color.g + color.b) / 3.0;
     outColor = vec4(i, 0, 0, 1.0);
   }
+
+  outColor = mix(vec4(skyColor, 1.0), outColor, visibility);
 }

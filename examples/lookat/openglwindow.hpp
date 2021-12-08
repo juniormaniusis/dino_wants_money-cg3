@@ -41,7 +41,7 @@ class OpenGLWindow : public abcg::OpenGLWindow {
   glm::vec4 m_Id{1.0f, 1.0f, 1.0f, 1.0f};
   glm::vec4 m_Is{1.0f, 1.0f, 1.0f, 1.0f};
 
-  glm::vec4 FOG_COLOR{0.5, 0.5, 0.5, 1};
+  glm::vec3 skyColor{0.5f, 0.5f, 0.5f};
 
   void update();
   void handleEventUpPressed();

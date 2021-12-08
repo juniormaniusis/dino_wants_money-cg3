@@ -137,6 +137,8 @@ void OpenGLWindow::paintGL() {
 
   GLint lightDirLoc{glGetUniformLocation(m_program, "lightDirWorldSpace")};
 
+  GLint skyColorLoc{glGetUniformLocation(m_program, "skyColor")};
+
   GLint IaLoc{glGetUniformLocation(m_program, "Ia")};
   GLint IdLoc{glGetUniformLocation(m_program, "Id")};
   GLint IsLoc{glGetUniformLocation(m_program, "Is")};
@@ -149,6 +151,7 @@ void OpenGLWindow::paintGL() {
   glUniform4fv(IdLoc, 1, &m_Id.x);
   glUniform4fv(IsLoc, 1, &m_Is.x);
   glUniform1i(diffuseTexLoc, 0);
+  glUniform3fv(skyColorLoc, 1, &skyColor.x);
 
   glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, &m_camera.m_viewMatrix[0][0]);
   glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, &m_camera.m_projMatrix[0][0]);

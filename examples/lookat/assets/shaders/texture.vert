@@ -18,7 +18,13 @@ out vec2 fragTexCoord;
 out vec3 fragPObj;
 out vec3 fragNObj;
 
+out float visibility;
+
+const float density = 0.03;
+const float gradient = 2.0;
+
 void main() {
+  vec4 positionRelativeToCam = viewMatrix * modelMatrix * vec4(inPosition, 1);
   vec3 P = (viewMatrix * modelMatrix * vec4(inPosition, 1.0)).xyz;
   vec3 N = normalMatrix * inNormal;
   vec3 L = -(viewMatrix * lightDirWorldSpace).xyz;
@@ -29,6 +35,11 @@ void main() {
   fragTexCoord = inTexCoord;
   fragPObj = inPosition;
   fragNObj = inNormal;
+
+  float distance = length(positionRelativeToCam.xyz);
+  visibility = exp(-pow((distance * density), gradient));
+
+  visibility = clamp(visibility, 0, 1);
 
   gl_Position = projMatrix * vec4(P, 1.0);
 }
