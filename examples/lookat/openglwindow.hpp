@@ -43,7 +43,7 @@ class OpenGLWindow : public abcg::OpenGLWindow {
   glm::vec4 m_Id{1.0f, 1.0f, 1.0f, 1.0f};
   glm::vec4 m_Is{1.0f, 1.0f, 1.0f, 1.0f};
   // abcg::glClearColor(0.52f, 0.80f, 0.92f, 1);
-  glm::vec3 skyColor{0.52f, 0.80f, 0.92f};
+  glm::vec3 skyColor{0.04f, 0.055f, 0.106f};
 
   void update();
   void handleEventUpPressed();
@@ -55,7 +55,6 @@ class OpenGLWindow : public abcg::OpenGLWindow {
   void handleEventDownReleased();
   void handleEventLeftReleased();
   void handleEventRightReleased();
-  
 };
 
 #endif

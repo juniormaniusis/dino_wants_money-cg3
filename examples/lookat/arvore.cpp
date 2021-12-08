@@ -8,6 +8,7 @@
 #include <glm/gtc/matrix_inverse.hpp>
 #include <glm/gtx/fast_trigonometry.hpp>
 #include <glm/gtx/hash.hpp>
+#include <random>
 #include <unordered_map>
 
 void Arvore::initializeGL(GLuint program, std::string assetsPath) {
@@ -17,6 +18,9 @@ void Arvore::initializeGL(GLuint program, std::string assetsPath) {
   m_model.loadFromFile(assetsPath +
                        "10446_Palm_Tree_v1_max2010_iteration-2.obj");
   m_model.setupVAO(program);
+
+  auto seed{std::chrono::steady_clock::now().time_since_epoch().count()};
+  m_randomEngine.seed(seed);
 }
 void Arvore::computeModelMatrix(int positionIndex) {
   auto model = glm::mat4{1};
@@ -42,7 +46,6 @@ void Arvore::paintGL(GLuint program, glm::mat4 cameraViewMatrix) {
 
   // m_posicao = glm::vec3(0);
   for (ulong i = 0; i < m_posicoes.size(); i++) {
-    
     computeModelMatrix(i);
     glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, &m_modelMatrix[0][0]);
     auto modelViewMatrix{glm::mat4(cameraViewMatrix * m_modelMatrix)};
@@ -60,10 +63,14 @@ void Arvore::paintGL(GLuint program, glm::mat4 cameraViewMatrix) {
 }
 
 std::vector<glm::vec3> Arvore::gerarPosicoes() {
+  std::uniform_real_distribution<float> rd(-5.0f, 5.0f);
+
   std::vector<glm::vec3> posicoes{};
   for (int i = 0; i < 30; i++) {
     for (int j = 0; j < 30; j++) {
-      posicoes.push_back(glm::vec3(i*3, 0, j*5));
+      float randX = rd(m_randomEngine) + ((float)(i + j) * 8);
+      float randZ = (rd(m_randomEngine) + i) * (float(j * 5));
+      posicoes.push_back(glm::vec3(randX, 0, randZ));
     }
   }
   return posicoes;

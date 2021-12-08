@@ -1,6 +1,7 @@
 #ifndef Arvore_HPP_
 #define Arvore_HPP_
 
+#include <random>
 #include <vector>
 
 #include "abcg.hpp"
@@ -22,6 +23,7 @@ class Arvore {
   friend OpenGLWindow;
   Model m_model;
   glm::mat4 m_modelMatrix{1.0f};
+  std::default_random_engine m_randomEngine;
 
   std::vector<glm::vec3> m_posicoes{};
   glm::vec3 m_rotacao{-90, 0, 0};
