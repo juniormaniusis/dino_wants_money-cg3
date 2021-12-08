@@ -10,7 +10,7 @@
 #include <glm/gtx/hash.hpp>
 #include <unordered_map>
 
-void Dinossauro::initializeGL(std::string assetsPath, GLuint program) {
+void Dinossauro::initializeGL(GLuint program, std::string assetsPath) {
   m_model.loadDiffuseTexture(assetsPath + "maps/dino.jpg");
   m_model.loadFromFile(assetsPath + "dino obj.obj");
   m_model.setupVAO(program);
@@ -86,7 +86,5 @@ void Dinossauro::computeModelMatrix() {
       glm::rotate(m_modelMatrix, glm::radians(m_rotacao.z), glm::vec3(0, 0, 1));
   m_modelMatrix = glm::scale(m_modelMatrix, glm::vec3(m_escala));
 }
-
-void Dinossauro::terminateGL() {}
 
 Dinossauro::~Dinossauro() {}

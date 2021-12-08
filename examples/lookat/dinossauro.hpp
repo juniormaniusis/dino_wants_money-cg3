@@ -17,9 +17,8 @@ class Dinossauro {
   static constexpr float JUMP_POWER{5.0f};
   static constexpr float NIVEL_CHAO{0.0f};
 
-  void initializeGL(std::string assetsPath, GLuint program);
+  void initializeGL(GLuint program, std::string assetsPath);
   void paintGL(GLuint program, glm::mat4 cameraViewMatrix);
-  void terminateGL();
   void update(float deltaTime);
   void computeModelMatrix();
   void pular();

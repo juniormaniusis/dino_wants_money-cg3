@@ -40,17 +40,19 @@ void OpenGLWindow::handleEventRightReleased() {
 void OpenGLWindow::handleEvent(SDL_Event& ev) {
   const float deltaTime{static_cast<float>(getDeltaTime())};
 
+  // ao utilizar o scroll do mouse, altera a distancia da camera e o dinossauro
   if (ev.type == SDL_MOUSEWHEEL) {
-    m_camera.changeDistanceFromPlayer(ev.wheel.y);
+    m_camera.alterarDistancia(ev.wheel.y);
   }
 
+  // ao movimentar o mouse, a camera altera o angulo em relação ao dinossauro
   if (ev.type == SDL_MOUSEMOTION) {
     float deltaX = ev.motion.xrel * deltaTime;
     float deltaY = ev.motion.yrel * deltaTime;
-    m_camera.calculateAngleAroundPlayer(deltaX);
-    m_camera.calculatePitch(deltaY);
+    m_camera.angulo(deltaX);
+    m_camera.pitch(deltaY);
   }
-
+  // movimentos
   if (ev.type == SDL_KEYDOWN) {
     if (ev.key.keysym.sym == SDLK_UP || ev.key.keysym.sym == SDLK_w) {
       handleEventUpPressed();
@@ -92,24 +94,21 @@ void OpenGLWindow::handleEvent(SDL_Event& ev) {
 void OpenGLWindow::initializeGL() {
   abcg::glClearColor(skyColor.x, skyColor.y, skyColor.z, 1);
 
-  // Enable depth buffering
   abcg::glEnable(GL_DEPTH_TEST);
 
-  // Create program
-  m_program = createProgramFromFile(getAssetsPath() + "shaders/texture_neblina.vert",
-                                    getAssetsPath() + "shaders/texture_neblina.frag");
+  auto assetsPath = getAssetsPath();
 
-  m_chao.initializeGL(m_program, getAssetsPath());
+  m_program =
+      createProgramFromFile(assetsPath + "shaders/texture_neblina.vert",
+                            assetsPath + "shaders/texture_neblina.frag");
 
-  m_dinossauro.initializeGL(getAssetsPath(),
-                        m_program);  // todo: inverter esses parametros
+  m_chao.initializeGL(m_program, assetsPath);
+
+  m_dinossauro.initializeGL(m_program, assetsPath);
 
   m_camera.initialize();
-  m_arvore.initializeGL(m_program, getAssetsPath());
-  m_dinheiro.initializeGL(m_program, getAssetsPath());
-  m_modelFloor.loadDiffuseTexture(getAssetsPath() + "maps/floor.jpg");
-  m_modelFloor.loadFromFile(getAssetsPath() + "track_floor.obj");
-  m_modelFloor.setupVAO(m_program);
+  m_arvore.initializeGL(m_program, assetsPath);
+  m_dinheiro.initializeGL(m_program, assetsPath);
 
   // configura a tela para as dimensões iniciais.
   resizeGL(getWindowSettings().width, getWindowSettings().height);
@@ -118,7 +117,6 @@ void OpenGLWindow::initializeGL() {
 void OpenGLWindow::paintGL() {
   update();
 
-  // Clear color buffer and depth buffer
   abcg::glEnable(GL_DEPTH_TEST);
   abcg::glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -139,18 +137,16 @@ void OpenGLWindow::paintGL() {
 
   GLint diffuseTexLoc{glGetUniformLocation(m_program, "diffuseTex")};
 
-  // todos
-  glUniform4fv(lightDirLoc, 1, &m_lightDir.x);
-  glUniform4fv(IaLoc, 1, &m_Ia.x);
-  glUniform4fv(IdLoc, 1, &m_Id.x);
   glUniform4fv(IsLoc, 1, &m_Is.x);
+  glUniform4fv(IdLoc, 1, &m_Id.x);
+  glUniform4fv(IaLoc, 1, &m_Ia.x);
   glUniform1i(diffuseTexLoc, 0);
+  glUniform4fv(lightDirLoc, 1, &m_lightDir.x);
   glUniform3fv(skyColorLoc, 1, &skyColor.x);
 
   glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, &m_camera.m_viewMatrix[0][0]);
   glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, &m_camera.m_projMatrix[0][0]);
 
-  // m_parede1.paintGL(m_program, m_camera.m_viewMatrix);
   m_chao.paintGL(m_program, m_camera.m_viewMatrix);
   m_dinossauro.paintGL(m_program, m_camera.m_viewMatrix);
 
@@ -174,13 +170,11 @@ void OpenGLWindow::paintUI() {
   style->Colors[ImGuiCol_Border] = ImVec4(0.0f, 1.0f, 0.06f, 0.88f);
   style->Colors[ImGuiCol_BorderShadow] = ImVec4(0.917f, 0.992f, 0.929f, 1.00f);
   {
-    // Window begin
     ImGui::SetNextWindowPos(ImVec2(5, 5));
     ImGui::Begin(" ", nullptr, ImGuiWindowFlags_NoDecoration);
 
     ImGui::Text("D$ %.2f coletados ", m_pontuacao);
 
-    // Window end
     ImGui::End();
   }
 }
@@ -193,8 +187,6 @@ void OpenGLWindow::resizeGL(int width, int height) {
 }
 
 void OpenGLWindow::terminateGL() {
-  // m_ground.terminateGL();
-  m_dinossauro.terminateGL();
   abcg::glDeleteProgram(m_program);
   abcg::glDeleteBuffers(1, &m_EBO);
   abcg::glDeleteBuffers(1, &m_VBO);

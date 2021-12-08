@@ -22,6 +22,7 @@ void Dinheiro::initializeGL(GLuint program, std::string assetsPath) {
 }
 
 void Dinheiro::update(float deltaTime, glm::vec3 pacmanPosition, float* score) {
+  // rotaciona a moeda e verifica se colidiu com o player
   m_rotacao.z += 30 * deltaTime;
   for (ulong i = 0; i < m_dinheiros.size(); i++) {
     if (m_dinheiros[i]->ativo) {
@@ -51,6 +52,7 @@ void Dinheiro::computeModelMatrix(int positionIndex) {
   m_modelMatrix = glm::scale(m_modelMatrix, glm::vec3(m_escala));
 }
 void Dinheiro::paintGL(GLuint program, glm::mat4 cameraViewMatrix) {
+  // se a moeda já foi capturada pelo player, não é mais renderizada.
   GLint modelMatrixLoc{glGetUniformLocation(program, "modelMatrix")};
   GLint normalMatrixLoc{glGetUniformLocation(program, "normalMatrix")};
   GLint shininessLoc{glGetUniformLocation(program, "shininess")};
@@ -59,7 +61,6 @@ void Dinheiro::paintGL(GLuint program, glm::mat4 cameraViewMatrix) {
   GLint KsLoc{glGetUniformLocation(program, "Ks")};
   GLint mappingModeLoc{glGetUniformLocation(program, "mappingMode")};
 
-  // m_posicao = glm::vec3(0);
   for (ulong i = 0; i < m_dinheiros.size(); i++) {
     if (m_dinheiros[i]->ativo) {
       computeModelMatrix(i);

@@ -14,9 +14,9 @@ class Camera {
   void computeProjectionMatrix(int width, int height);
   void initialize();
 
-  void changeDistanceFromPlayer(float mouseWhell);
-  void calculatePitch(float mouse);
-  void calculateAngleAroundPlayer(float mouse);
+  void alterarDistancia(float mouseWhell);
+  void pitch(float mouse);
+  void angulo(float mouse);
 
  private:
   friend OpenGLWindow;
