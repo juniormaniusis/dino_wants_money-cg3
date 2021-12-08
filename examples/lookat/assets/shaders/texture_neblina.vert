@@ -37,7 +37,7 @@ void main() {
   fragNObj = inNormal;
 
   float distance = length(positionRelativeToCam.xyz);
-  // modelo exponencial de neblina
+
   visibility = exp(-pow((distance * density), gradient));
   if(visibility < 0.0) {
     visibility = 0.0;
