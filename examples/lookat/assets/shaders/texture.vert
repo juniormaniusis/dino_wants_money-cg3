@@ -37,9 +37,8 @@ void main() {
   fragNObj = inNormal;
 
   float distance = length(positionRelativeToCam.xyz);
+  // modelo exponencial de neblina
   visibility = exp(-pow((distance * density), gradient));
-
   visibility = clamp(visibility, 0, 1);
-
   gl_Position = projMatrix * vec4(P, 1.0);
 }
