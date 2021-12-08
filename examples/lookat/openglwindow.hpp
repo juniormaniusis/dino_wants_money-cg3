@@ -7,10 +7,10 @@
 #include "arvore.hpp"
 #include "camera.hpp"
 #include "chao.hpp"
+#include "dinheiro.hpp"
 #include "gamedata.hpp"
 #include "model.hpp"
 #include "pacman.hpp"
-
 class OpenGLWindow : public abcg::OpenGLWindow {
  protected:
   void handleEvent(SDL_Event& ev) override;
@@ -31,7 +31,8 @@ class OpenGLWindow : public abcg::OpenGLWindow {
 
   Camera m_camera;
   Arvore m_arvore;
-
+  Dinheiro m_dinheiro;
+  float m_pontuacao{0};
   Chao m_chao;
   Pacman m_pacman;
 

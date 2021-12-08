@@ -9,8 +9,13 @@ int main(int argc, char **argv) {
 
     auto window{std::make_unique<OpenGLWindow>()};
     window->setOpenGLSettings({.samples = 4});
-    window->setWindowSettings(
-        {.width = 600, .height = 600, .title = "LookAt Camera"});
+    window->setWindowSettings({
+        .width = 600,
+        .height = 600,
+        .showFPS = false,
+        .showFullscreenButton = false,
+        .title = "DINO WANTS MONEY",
+    });
 
     app.run(std::move(window));
   } catch (const abcg::Exception &exception) {

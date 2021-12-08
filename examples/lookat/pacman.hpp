@@ -13,8 +13,8 @@ class Pacman {
   ~Pacman();
   static constexpr float VELOCIDADE_DESCOLAMENTO{3.5f};
   static constexpr float VELOCIDADE_ROTACAO{100.0f};
-  static constexpr float GRAVIDADE{-4.5f};
-  static constexpr float JUMP_POWER{2.0f};
+  static constexpr float GRAVIDADE{-9.8f};
+  static constexpr float JUMP_POWER{5.0f};
   static constexpr float NIVEL_CHAO{0.0f};
 
   void initializeGL(std::string assetsPath, GLuint program);

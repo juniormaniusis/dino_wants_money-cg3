@@ -105,9 +105,8 @@ void OpenGLWindow::initializeGL() {
                         m_program);  // todo: inverter esses parametros
 
   m_camera.initialize();
-
   m_arvore.initializeGL(m_program, getAssetsPath());
-
+  m_dinheiro.initializeGL(m_program, getAssetsPath());
   m_modelFloor.loadDiffuseTexture(getAssetsPath() + "maps/floor.jpg");
   m_modelFloor.loadFromFile(getAssetsPath() + "track_floor.obj");
   m_modelFloor.setupVAO(m_program);
@@ -156,10 +155,35 @@ void OpenGLWindow::paintGL() {
   m_pacman.paintGL(m_program, m_camera.m_viewMatrix);
 
   m_arvore.paintGL(m_program, m_camera.m_viewMatrix);
+  m_dinheiro.paintGL(m_program, m_camera.m_viewMatrix);
   glUseProgram(0);
 }
 
-void OpenGLWindow::paintUI() { abcg::OpenGLWindow::paintUI(); }
+void OpenGLWindow::paintUI() {
+  abcg::OpenGLWindow::paintUI();
+  ImGuiStyle* style = &ImGui::GetStyle();
+
+  style->WindowPadding = ImVec2(15, 15);
+  style->WindowRounding = 5.0f;
+  style->FramePadding = ImVec2(5, 5);
+  style->FrameRounding = 4.0f;
+
+  style->Colors[ImGuiCol_Text] = ImVec4(0.917f, 0.992f, 0.929f, 1.00f);
+  style->Colors[ImGuiCol_TextDisabled] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
+  style->Colors[ImGuiCol_WindowBg] = ImVec4(0.121f, 0.552f, 0.176f, 1.00f);
+  style->Colors[ImGuiCol_Border] = ImVec4(0.0f, 1.0f, 0.06f, 0.88f);
+  style->Colors[ImGuiCol_BorderShadow] = ImVec4(0.917f, 0.992f, 0.929f, 1.00f);
+  {
+    // Window begin
+    ImGui::SetNextWindowPos(ImVec2(5, 5));
+    ImGui::Begin(" ", nullptr, ImGuiWindowFlags_NoDecoration);
+
+    ImGui::Text("D$ %.2f coletados ", m_pontuacao);
+
+    // Window end
+    ImGui::End();
+  }
+}
 
 void OpenGLWindow::resizeGL(int width, int height) {
   m_viewportWidth = width;
@@ -181,5 +205,6 @@ void OpenGLWindow::update() {
   m_lightDir = glm::vec4(glm::normalize(glm::vec3(-1, -1, -1)), 0);
   const float deltaTime{static_cast<float>(getDeltaTime())};
   m_pacman.update(deltaTime);
+  m_dinheiro.update(deltaTime);
   m_camera.update(m_pacman.m_posicao, m_pacman.m_rotacao);
 }
