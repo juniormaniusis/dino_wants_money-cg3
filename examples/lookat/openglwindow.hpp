@@ -50,16 +50,11 @@ class OpenGLWindow : public abcg::OpenGLWindow {
   void handleEventDownPressed();
   void handleEventLeftPressed();
   void handleEventRightPressed();
-  void handleEventQPressed();
-  void handleEventEPressed();
   void handleEventSpaceBarPressed();
   void handleEventUpReleased();
   void handleEventDownReleased();
   void handleEventLeftReleased();
   void handleEventRightReleased();
-  void handleEventQReleased();
-  void handleEventEReleased();
-  // void handleEventSpaceBarReleased(SDL_Event& ev)
 };
 
 #endif

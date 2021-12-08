@@ -13,66 +13,54 @@
 #include "gamedata.hpp"
 
 void OpenGLWindow::handleEventUpPressed() {
-  m_camera.m_dollySpeed = 1.0f;
   m_pacman.m_velocidadeDeslocamento = Pacman::VELOCIDADE_DESCOLAMENTO;
 }
 void OpenGLWindow::handleEventDownPressed() {
-  m_camera.m_dollySpeed = -1.0f;
   m_pacman.m_velocidadeDeslocamento = -Pacman::VELOCIDADE_DESCOLAMENTO;
 }
 
 void OpenGLWindow::handleEventLeftPressed() {
-  m_camera.m_panSpeed = -1.0f;
   m_pacman.m_velocidadeRotacao = Pacman::VELOCIDADE_ROTACAO;
 }
 
 void OpenGLWindow::handleEventRightPressed() {
-  m_camera.m_panSpeed = 1.0f;
   m_pacman.m_velocidadeRotacao = -Pacman::VELOCIDADE_ROTACAO;
 }
 
-void OpenGLWindow::handleEventQPressed() { m_camera.m_truckSpeed = -1.0f; }
-void OpenGLWindow::handleEventEPressed() { m_camera.m_truckSpeed = 1.0f; }
-void OpenGLWindow::handleEventSpaceBarPressed() {
-  m_pacman.pular();
-}
+void OpenGLWindow::handleEventSpaceBarPressed() { m_pacman.pular(); }
 
 void OpenGLWindow::handleEventUpReleased() {
-  if (m_camera.m_dollySpeed > 0) {
-    m_camera.m_dollySpeed = 0.0f;
-  }
   m_pacman.m_velocidadeDeslocamento = 0.0f;
 }
 void OpenGLWindow::handleEventDownReleased() {
-  if (m_camera.m_dollySpeed < 0) {
-    m_camera.m_dollySpeed = 0.0f;
-  }
   m_pacman.m_velocidadeDeslocamento = 0.0f;
 }
 void OpenGLWindow::handleEventLeftReleased() {
-  if (m_camera.m_panSpeed < 0) {
-    m_camera.m_panSpeed = 0.0f;
-    m_pacman.m_velocidadeRotacao = 0.0f;
-  }
+  m_pacman.m_velocidadeRotacao = 0.0f;
 }
 void OpenGLWindow::handleEventRightReleased() {
-  if (m_camera.m_panSpeed > 0) {
-    m_camera.m_panSpeed = 0.0f;
-    m_pacman.m_velocidadeRotacao = 0.0f;
-  }
-}
-void OpenGLWindow::handleEventQReleased() {
-  if (m_camera.m_truckSpeed < 0) {
-    m_camera.m_truckSpeed = 0.0f;
-  }
-}
-void OpenGLWindow::handleEventEReleased() {
-  if (m_camera.m_truckSpeed > 0) {
-    m_camera.m_truckSpeed = 0.0f;
-  }
+  m_pacman.m_velocidadeRotacao = 0.0f;
 }
 
 void OpenGLWindow::handleEvent(SDL_Event& ev) {
+  const float deltaTime{static_cast<float>(getDeltaTime())};
+
+  if (ev.type == SDL_MOUSEWHEEL) {
+    m_camera.changeDistanceFromPlayer(ev.wheel.y);
+  }
+
+  if (ev.type == SDL_MOUSEMOTION &&
+      ev.button.button == SDL_BUTTON(SDL_BUTTON_RIGHT)) {
+    float deltaX = ev.motion.xrel * deltaTime;
+    m_camera.calculateAngleAroundPlayer(deltaX);
+  }
+
+  if (ev.type == SDL_MOUSEMOTION &&
+      ev.button.button == SDL_BUTTON(SDL_BUTTON_MIDDLE)) {
+    float deltaY = ev.motion.yrel * deltaTime;
+    m_camera.calculatePitch(deltaY);
+  }
+
   if (ev.type == SDL_KEYDOWN) {
     if (ev.key.keysym.sym == SDLK_UP || ev.key.keysym.sym == SDLK_w) {
       handleEventUpPressed();
@@ -89,18 +77,12 @@ void OpenGLWindow::handleEvent(SDL_Event& ev) {
       handleEventRightPressed();
     }
 
-    if (ev.key.keysym.sym == SDLK_q) {
-      handleEventQPressed();
-    }
-    if (ev.key.keysym.sym == SDLK_e) {
-      handleEventEPressed();
-    }
     if (ev.key.keysym.sym == SDLK_SPACE) {
       handleEventSpaceBarPressed();
     }
   }
   if (ev.type == SDL_KEYUP) {
-        if (ev.key.keysym.sym == SDLK_UP || ev.key.keysym.sym == SDLK_w) {
+    if (ev.key.keysym.sym == SDLK_UP || ev.key.keysym.sym == SDLK_w) {
       handleEventUpReleased();
     }
 
@@ -114,17 +96,11 @@ void OpenGLWindow::handleEvent(SDL_Event& ev) {
     if (ev.key.keysym.sym == SDLK_RIGHT || ev.key.keysym.sym == SDLK_d) {
       handleEventRightReleased();
     }
-    if (ev.key.keysym.sym == SDLK_q) {
-      handleEventQReleased();
-    }
-    if (ev.key.keysym.sym == SDLK_e) {
-      handleEventEReleased();
-    }
   }
 }
 
 void OpenGLWindow::initializeGL() {
-  abcg::glClearColor(.3, .3, .3, 1);
+  abcg::glClearColor(0.52f, 0.80f, 0.92f, 1);
 
   // Enable depth buffering
   abcg::glEnable(GL_DEPTH_TEST);
@@ -138,7 +114,7 @@ void OpenGLWindow::initializeGL() {
   m_pacman.initializeGL(getAssetsPath(),
                         m_program);  // todo: inverter esses parametros
 
-  m_camera.initialize(m_pacman.m_posicao);
+  m_camera.initialize();
 
   m_modelFloor.loadDiffuseTexture(getAssetsPath() + "maps/floor.jpg");
   m_modelFloor.loadFromFile(getAssetsPath() + "track_floor.obj");
@@ -205,9 +181,8 @@ void OpenGLWindow::terminateGL() {
 }
 
 void OpenGLWindow::update() {
-  m_lightDir = glm::vec4(glm::normalize(m_camera.m_at - m_camera.m_eye), 0);
+  m_lightDir = glm::vec4(glm::normalize(glm::vec3(-1, -1, -1)), 0);
   const float deltaTime{static_cast<float>(getDeltaTime())};
-
   m_pacman.update(deltaTime);
-  m_camera.update(deltaTime, m_pacman.m_posicao, m_pacman.m_velocidadeRotacao);
+  m_camera.update(m_pacman.m_posicao, m_pacman.m_rotacao);
 }
