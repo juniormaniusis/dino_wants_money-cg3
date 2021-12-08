@@ -57,11 +57,17 @@ void Camera::changeDistanceFromPlayer(float mouseWheel) {
 }
 
 void Camera::calculatePitch(float mouse) {
-  float delta = mouse * 1000;
+  float delta = mouse * 35.0f;
   m_pitch += delta;
+  if (m_pitch < 10) {
+    m_pitch = 10;
+  }
+  if (m_pitch > 95) {
+    m_pitch = 95;
+  }
 }
 
 void Camera::calculateAngleAroundPlayer(float mouse) {
-  float delta = mouse * 500.0f;
+  float delta = mouse * 35.0f;
   m_angleAroundPlayer -= delta;
 }

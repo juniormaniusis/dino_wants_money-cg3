@@ -18,17 +18,13 @@ void OpenGLWindow::handleEventUpPressed() {
 void OpenGLWindow::handleEventDownPressed() {
   m_pacman.m_velocidadeDeslocamento = -Pacman::VELOCIDADE_DESCOLAMENTO;
 }
-
 void OpenGLWindow::handleEventLeftPressed() {
   m_pacman.m_velocidadeRotacao = Pacman::VELOCIDADE_ROTACAO;
 }
-
 void OpenGLWindow::handleEventRightPressed() {
   m_pacman.m_velocidadeRotacao = -Pacman::VELOCIDADE_ROTACAO;
 }
-
 void OpenGLWindow::handleEventSpaceBarPressed() { m_pacman.pular(); }
-
 void OpenGLWindow::handleEventUpReleased() {
   m_pacman.m_velocidadeDeslocamento = 0.0f;
 }
@@ -41,7 +37,6 @@ void OpenGLWindow::handleEventLeftReleased() {
 void OpenGLWindow::handleEventRightReleased() {
   m_pacman.m_velocidadeRotacao = 0.0f;
 }
-
 void OpenGLWindow::handleEvent(SDL_Event& ev) {
   const float deltaTime{static_cast<float>(getDeltaTime())};
 
@@ -49,8 +44,7 @@ void OpenGLWindow::handleEvent(SDL_Event& ev) {
     m_camera.changeDistanceFromPlayer(ev.wheel.y);
   }
 
-  if (ev.type == SDL_MOUSEMOTION &&
-      ev.button.button == SDL_BUTTON(SDL_BUTTON_RIGHT)) {
+  if (ev.type == SDL_MOUSEMOTION) {
     float deltaX = ev.motion.xrel * deltaTime;
     float deltaY = ev.motion.yrel * deltaTime;
     m_camera.calculateAngleAroundPlayer(deltaX);
@@ -96,8 +90,7 @@ void OpenGLWindow::handleEvent(SDL_Event& ev) {
 }
 
 void OpenGLWindow::initializeGL() {
-  abcg::glClearColor(.5f, .5f, .5f, 1);
-  // abcg::glClearColor(0.52f, 0.80f, 0.92f, 1);
+  abcg::glClearColor(skyColor.x, skyColor.y, skyColor.z, 1);
 
   // Enable depth buffering
   abcg::glEnable(GL_DEPTH_TEST);
@@ -112,6 +105,8 @@ void OpenGLWindow::initializeGL() {
                         m_program);  // todo: inverter esses parametros
 
   m_camera.initialize();
+
+  m_arvore.initializeGL(m_program, getAssetsPath());
 
   m_modelFloor.loadDiffuseTexture(getAssetsPath() + "maps/floor.jpg");
   m_modelFloor.loadFromFile(getAssetsPath() + "track_floor.obj");
@@ -159,6 +154,8 @@ void OpenGLWindow::paintGL() {
   // m_parede1.paintGL(m_program, m_camera.m_viewMatrix);
   m_chao.paintGL(m_program, m_camera.m_viewMatrix);
   m_pacman.paintGL(m_program, m_camera.m_viewMatrix);
+
+  m_arvore.paintGL(m_program, m_camera.m_viewMatrix);
   glUseProgram(0);
 }
 

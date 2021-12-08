@@ -11,8 +11,8 @@ class OpenGLWindow;
 class Pacman {
  public:
   ~Pacman();
-  static constexpr float VELOCIDADE_DESCOLAMENTO{1.0f};
-  static constexpr float VELOCIDADE_ROTACAO{90.0f};
+  static constexpr float VELOCIDADE_DESCOLAMENTO{3.5f};
+  static constexpr float VELOCIDADE_ROTACAO{100.0f};
   static constexpr float GRAVIDADE{-4.5f};
   static constexpr float JUMP_POWER{2.0f};
   static constexpr float NIVEL_CHAO{0.0f};
@@ -23,6 +23,7 @@ class Pacman {
   void update(float deltaTime);
   void computeModelMatrix();
   void pular();
+
  private:
   friend OpenGLWindow;
   friend Camera;

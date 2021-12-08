@@ -12,19 +12,20 @@ class Arvore {
  public:
   ~Arvore();
 
-  void initializeGL(GLuint program, std::string assetsPath, glm::vec3 posicao);
+  void initializeGL(GLuint program, std::string assetsPath);
   void paintGL(GLuint program, glm::mat4 cameraViewMatrix);
   void terminateGL();
-  void update(float deltaTime);
+  void computeModelMatrix(int positionIndex);
+  std::vector<glm::vec3> gerarPosicoes();
 
  private:
   friend OpenGLWindow;
-  friend Camera;
   Model m_model;
   glm::mat4 m_modelMatrix{1.0f};
 
-  glm::vec3 m_posicaoInicial{glm::vec3(0)};
-  glm::vec3 m_posicaoFinal{glm::vec3(1, 0, 0)};
+  std::vector<glm::vec3> m_posicoes{};
+  glm::vec3 m_rotacao{-90, 0, 0};
+  float m_escala{0.01};
 };
 
 #endif
