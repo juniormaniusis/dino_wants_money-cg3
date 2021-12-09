@@ -52,20 +52,23 @@ Além destes, um outro movimento é possível com a camera. É possível se apro
 
 #### Névoa
 
-Para criar o efeito de névoa, como na imagem abaixo
 ![efeito de névoa](https://github.com/juniormaniusis/dino_wants_money-cg3/blob/main/imagens/nevoa.png)
 
-Note que os objetos que estão mais distantes, ficam ofuscados em relação aos objetos que estão mais próximos.
+Note que na imagem acima - onde a intenção é mostrar a implementação do efeito de névoa - os objetos que estão mais distantes, ficam ofuscados em relação aos objetos que estão mais próximos.
 
 para isso, modificamos o vertex shader para realizar o calculo da visibilidade de um ponto.
 
 vimos nas notas de aula, uma forma de sombrear um ponto conforme a distância que está da câmera, o conceito utilizado foi bem parecido.
 
-foi utilizado um modelo de efeito de névoa com uma equação na forma exponencial.
+Utilizamos um modelo de visibilidade uma equação na forma exponencial.
+
+Depois de calculada a visibilidade, misturamos a cor original do ponto, com a cor do céu, ponderado pela visibilidade.
+
+A equação para dar a visibilidade de um ponto é:
 
 ![equacao exponencial](https://github.com/juniormaniusis/dino_wants_money-cg3/blob/main/imagens/equacao_exponencial_nevoa.png)
 
-Assim, a visibilidade de um ponto depende de três variáveis:
+Logo, a visibilidade de um ponto depende de três variáveis:
 
 ```
 - distância do ponto até a câmera.
@@ -105,7 +108,6 @@ Development framework accompanying the course MCTA008-17 Computer Graphics at [U
 
 Developed by Harlen Batagelo.
 https://webglfundamentals.org/webgl/lessons/webgl-fog.html
-
 
 ### License
 
