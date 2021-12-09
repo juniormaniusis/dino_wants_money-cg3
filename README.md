@@ -50,10 +50,11 @@ Além destes, um outro movimento é possível com a camera. É possível se apro
 
 ![aproximar e se afastar do dinossauro](https://github.com/juniormaniusis/dino_wants_money-cg3/blob/main/imagens/distancia_player.gif)
 
-
 #### Névoa
+ Para criar o efeito de névoa, como na imagem abaixo
+![aproximar e se afastar do dinossauro](https://github.com/juniormaniusis/dino_wants_money-cg3/blob/main/imagens/nevoa.gif)
 
-
+[https://webglfundamentals.org/webgl/lessons/webgl-fog.html](FOG))
 
 # ABCg
 
