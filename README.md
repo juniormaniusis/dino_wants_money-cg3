@@ -8,6 +8,8 @@
 O projeto consiste em uma representação 3D de um mundo cheio de palmeiras e neblina, onde um dinossauro vive e coleta dinheiro para ganhar pontos.
 O dinossauro é controlado a partir do teclado e a camera a partir do mouse.
 
+#### [Jogar a versão WebAssembly](https://juniormaniusis.github.io/dino_wants_money-cg3/public/)
+
 ### Controles
 
 Controles do Dinossauro
