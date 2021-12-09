@@ -74,6 +74,17 @@ Assim, a visibilidade de um ponto depende de três variáveis:
 
 ```
 
+#### Dinossauro
+
+O Dinossauro pode se movimentar para os lados.
+![movimento dinossaruo](https://github.com/juniormaniusis/dino_wants_money-cg3/blob/main/imagens/andando.gif)
+
+Pode saltar, de forma que retorna para baixo por conta de uma força gravitacional aplicada.
+![movimento dinossaruo](https://github.com/juniormaniusis/dino_wants_money-cg3/blob/main/imagens/pulo_gravidade.gif)
+
+E também existe a detecção de colisão com os dinheiros, que desaparecem e aumentam a sua pontuação.
+![coleta de dinheiro](https://github.com/juniormaniusis/dino_wants_money-cg3/blob/main/imagens/coletar.gif)
+
 Utilizando o [https://www.geogebra.org/calculator](Geogebra), podemos ver como se comporta a visibilidade variando a densidade e variando o gradiente
 
 ##### Variando a Densidade
