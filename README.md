@@ -42,11 +42,14 @@ Controles da Camera
 
 ### Código
 
-Camera: A cena é observada a partir de uma câmera em pessoa, que segue os movimentos do dinossauro.
+#### Camera
+
+A cena é observada a partir de uma câmera em pessoa, que segue os movimentos do dinossauro.
 
 ![ilustração de movimentos de pitch, yaw e roll de uma camera](https://github.com/juniormaniusis/dino_wants_money-cg3/blob/main/imagens/camera_yay_pitch_roll.jpg)
 
 A imagem acima ilustra os movimentos de pitch, yaw e roll. Cada um ocorre em uma das dimensões.
+
 ```
 -pitch: o movimento de olhar para cima e para baixo.
 -yaw: o movimento de olhar para esquerda e direita.
