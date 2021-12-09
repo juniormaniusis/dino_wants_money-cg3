@@ -46,6 +46,10 @@ Abaixo, temos a demonstração destes efeitos na implementação, note que não 
 
 ![yaw](https://github.com/juniormaniusis/dino_wants_money-cg3/blob/main/imagens/angulo_player.gif)
 
+Além destes, um outro movimento é possível com a camera. É possível se aproximar ou se afastar do dinossauro.
+
+![aproximar e se afastar do dinossauro](https://github.com/juniormaniusis/dino_wants_money-cg3/blob/main/imagens/distancia_player.gif)
+
 # ABCg
 
 Development framework accompanying the course MCTA008-17 Computer Graphics at [UFABC](https://www.ufabc.edu.br/).
