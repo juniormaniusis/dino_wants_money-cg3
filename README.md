@@ -96,8 +96,6 @@ Pode saltar, de forma que retorna para baixo por conta de uma força gravitacion
 E também existe a detecção de colisão com os dinheiros, que desaparecem e aumentam a sua pontuação.
 ![coleta de dinheiro](https://github.com/juniormaniusis/dino_wants_money-cg3/blob/main/imagens/coletar.gif)
 
-Utilizando o [https://www.geogebra.org/calculator](Geogebra), podemos ver como se comporta a visibilidade variando a densidade e variando o gradiente
-
 # ABCg
 
 Development framework accompanying the course MCTA008-17 Computer Graphics at [UFABC](https://www.ufabc.edu.br/).
