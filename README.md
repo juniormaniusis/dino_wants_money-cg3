@@ -74,6 +74,14 @@ Assim, a visibilidade de um ponto depende de três variáveis:
 
 ```
 
+##### Variando a Densidade
+
+![variação densidade](https://github.com/juniormaniusis/dino_wants_money-cg3/blob/main/imagens/variacao_densidade.gif)
+
+##### Variando o Gradiente
+
+![variação densidade](https://github.com/juniormaniusis/dino_wants_money-cg3/blob/main/imagens/variacao_gradiente.gif)
+
 #### Dinossauro
 
 O Dinossauro pode se movimentar para os lados.
@@ -87,16 +95,6 @@ E também existe a detecção de colisão com os dinheiros, que desaparecem e au
 
 Utilizando o [https://www.geogebra.org/calculator](Geogebra), podemos ver como se comporta a visibilidade variando a densidade e variando o gradiente
 
-##### Variando a Densidade
-
-![variação densidade](https://github.com/juniormaniusis/dino_wants_money-cg3/blob/main/imagens/variacao_densidade.gif)
-
-##### Variando o Gradiente
-
-![variação densidade](https://github.com/juniormaniusis/dino_wants_money-cg3/blob/main/imagens/variacao_gradiente.gif)
-
-[https://webglfundamentals.org/webgl/lessons/webgl-fog.html](FOG)
-
 # ABCg
 
 Development framework accompanying the course MCTA008-17 Computer Graphics at [UFABC](https://www.ufabc.edu.br/).
@@ -106,6 +104,8 @@ Development framework accompanying the course MCTA008-17 Computer Graphics at [U
 ### Credits
 
 Developed by Harlen Batagelo.
+https://webglfundamentals.org/webgl/lessons/webgl-fog.html
+
 
 ### License
 
