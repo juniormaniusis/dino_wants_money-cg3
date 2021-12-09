@@ -20,7 +20,7 @@ out vec3 fragNObj;
 
 out float visibility;
 
-const float density = 0.03;
+const float density = 0.06;
 const float gradient = 2.0;
 
 void main() {
