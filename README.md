@@ -56,6 +56,12 @@ A imagem acima ilustra os movimentos de pitch, yaw e roll. Cada um ocorre em uma
 -roll: movimento circular, em sentido horário ou anti horário.
 ```
 
+Abaixo, temos a demonstração destes efeitos na implementação, note que não foi feito o uso do movimento roll.
+
+![pitch](https://github.com/juniormaniusis/dino_wants_money-cg3/blob/main/imagens/pitch.gif)
+
+![yaw](https://github.com/juniormaniusis/dino_wants_money-cg3/blob/main/imagens/angulo_player.gif)
+
 ### Imagens
 
 Imagem inicial da cena e visão do corredor:
