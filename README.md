@@ -1,19 +1,3 @@
-# ABCg
-
-Development framework accompanying the course MCTA008-17 Computer Graphics at [UFABC](https://www.ufabc.edu.br/).
-
----
-
-### Credits
-
-Developed by Harlen Batagelo.
-
-### License
-
-ABCg is licensed under the MIT License. See [LICENSE](https://github.com/hbatagelo/abcg/blob/main/LICENSE) for more information.
-
----
-
 ### Nomes e RA
 
 - Carlos Maniusis Jr. - RA: 11081816 (Prof. Bruno Marques)
@@ -62,20 +46,18 @@ Abaixo, temos a demonstração destes efeitos na implementação, note que não 
 
 ![yaw](https://github.com/juniormaniusis/dino_wants_money-cg3/blob/main/imagens/angulo_player.gif)
 
-### Imagens
+# ABCg
 
-Imagem inicial da cena e visão do corredor:
+Development framework accompanying the course MCTA008-17 Computer Graphics at [UFABC](https://www.ufabc.edu.br/).
 
-![Alt text](https://github.com/melissasoledade/abcg/blob/main/pacman-01.png)
+---
 
-Imagem da visão do Pacman:
+### Credits
 
-![Alt text](https://github.com/melissasoledade/abcg/blob/main/pacman-02.png)
+Developed by Harlen Batagelo.
 
-Pacman:
+### License
 
-![Alt text](https://github.com/melissasoledade/abcg/blob/main/pacman-03.png)
+ABCg is licensed under the MIT License. See [LICENSE](https://github.com/hbatagelo/abcg/blob/main/LICENSE) for more information.
 
-Imagem de outro ângulo do Pacman:
-
-![Alt text](https://github.com/melissasoledade/abcg/blob/main/pacman-04.png)
+---
