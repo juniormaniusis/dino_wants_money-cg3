@@ -62,7 +62,7 @@ para isso, modificamos o vertex shader para realizar o calculo da visibilidade d
 
 vimos nas notas de aula, uma forma de sombrear um ponto conforme a distância que está da câmera, o conceito utilizado foi bem parecido.
 
-Utilizamos um modelo de visibilidade uma equação na forma exponencial.
+Utilizamos um modelo de visibilidade que utiliza uma equação na forma exponencial.
 
 Depois de calculada a visibilidade, misturamos a cor original do ponto, com a cor do céu, ponderado pela visibilidade.
 
