@@ -21,7 +21,7 @@ ABCg is licensed under the MIT License. See [LICENSE](https://github.com/hbatage
 
 ### Descrição
 
-O projeto consiste em uma representação 3D de um mundo cheio de palmeiras, onde um dinossauro vive e coleta dinheiro para ganhar pontos.
+O projeto consiste em uma representação 3D de um mundo cheio de palmeiras e neblina, onde um dinossauro vive e coleta dinheiro para ganhar pontos.
 O dinossauro é controlado a partir do teclado e a camera a partir do mouse.
 
 ### Controles
@@ -42,10 +42,7 @@ Controles da Camera
 
 ### Código
 
-- camera.cpp: câmera utilizada no projeto lookat. Modificamos a posição inicial da câmera para ficar no início do corredor do labirinto.
-- ground.cpp: representa o chão da cena, feito também em quadriculado e nos tons de azul, inspirados no jogo do Pacman.
-- wall.cpp (4 arquivos wall): cada um dos arquivos representa uma parede (plano 3d). As paredes também estão em tons azuis, inspiração no jogo do Pacman.
-- openglwindow.cpp: carrega o modelo do .obj file do Pacman e renderiza os outros objetos da cena (ground, walls).
+Camera: A cena é observada a partir de uma câmera em pessoa, que segue os movimentos do dinossauro.
 
 ### Imagens
 
